@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_complete_guide/providers/loading.dart';
 import 'package:flutter_complete_guide/providers/messages_data.dart';
+import 'package:flutter_complete_guide/route/custom_route.dart';
 import 'package:flutter_complete_guide/screens/display_image.dart';
 import 'package:flutter_complete_guide/screens/display_video.dart';
 import 'package:intl/intl.dart';
@@ -47,11 +48,10 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                       GestureDetector(
                         onTap: () {
                           print(widget.message.videoPrefFrom!);
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VideoApp(
-                              downloaded: false,
-                              pickedFile: widget.message.videoPrefFrom!,
-                              thumbnailPath: widget.message.imagePrefFrom!,
+                          Navigator.of(context).push(CustomRoute2(
+                                    builder: (context) => DisplayVIdeo(                          
+                            widget.message.videoPrefFrom!,  false,
+                              widget.message.imagePrefFrom!,
                             ),
                           ));
                         },

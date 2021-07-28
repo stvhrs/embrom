@@ -10,11 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter_complete_guide/camera/camrea/delegates/camera_picker_text_delegate.dart';
+
 import 'package:flutter_complete_guide/models/people_model.dart';
 import 'package:flutter_complete_guide/screens/image_view.dart';
 import 'package:flutter_complete_guide/screens/video_view.dart';
-
+import '../wechat/wechat_camera_picker.dart';
 import '../constants/constants.dart';
 import '../widget/circular_progress_bar.dart';
 
@@ -738,7 +738,8 @@ class CameraPickerState extends State<CameraPicker>
       Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => ImageView(
           path: image.path,
-          person: widget.person,pop: false,
+          person: widget.person,
+          pop: false,
         ),
       ));
       // final AssetEntity? entity = await CameraPickerViewer.pushToViewer(
@@ -823,7 +824,7 @@ class CameraPickerState extends State<CameraPicker>
   /// 停止录制视频
   Future<void> stopRecordingVideo() async {
     void _handleError() {
-    //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('d')));
+      //  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('d')));
       _recordCountdownTimer?.cancel();
       isShootingButtonAnimate = false;
       safeSetState(() {});
@@ -834,7 +835,8 @@ class CameraPickerState extends State<CameraPicker>
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => VideoView(
             path: file.path,
-            person: widget.person,pop: false,
+            person: widget.person,
+            pop: false,
           ),
         ));
       }).catchError((Object e) {

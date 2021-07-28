@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class ImageView extends StatefulWidget {
-  static const routeame = '/displayImage';
+  static const routeame = '/imageView';
   const ImageView({this.path, this.person,  this.pop});
   final String? path;
   final Person? person;

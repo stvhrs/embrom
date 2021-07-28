@@ -1,4 +1,5 @@
 
+import 'package:flutter_complete_guide/route/custom_route.dart';
 import 'package:flutter_complete_guide/screens/tab_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,7 @@ class _IntroductionState extends State<Introduction> {
               onPressed: () {
                 Provider.of<AuthProvider>(context, listen: false)
                     .signInWithGoogle().then((value) {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TabsScreen()))
+                      Navigator.of(context).push(  CustomRoute(builder: (context) => TabsScreen()))
                       ;
                     });
               }),

@@ -13,7 +13,7 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:intl/intl.dart';
 
 class VideoView extends StatefulWidget {
-    static const routeame = '/displayVideo';
+    static const routeame = '/videoView';
   const VideoView({this.path, this.person, this.pop});
   final String? path;
   final Person? person;

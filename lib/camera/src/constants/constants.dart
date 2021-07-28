@@ -7,9 +7,9 @@ import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_complete_guide/camera/camrea/delegates/camera_picker_text_delegate.dart';
 
 
+import '../delegates/camera_picker_text_delegate.dart';
 
 
 

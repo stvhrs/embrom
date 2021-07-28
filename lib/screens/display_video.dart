@@ -2,20 +2,21 @@ import 'dart:io';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
-class VideoApp extends StatefulWidget {
-  final String pickedFile;
-  final bool downloaded;
-  final String thumbnailPath;
+class DisplayVIdeo extends StatefulWidget {
+   static const routeame = '/displayVideo';
+  final String? pickedFile;
+  final bool? downloaded;
+  final String? thumbnailPath;
 
-  VideoApp(
-      {required this.pickedFile,
-      required this.downloaded,
-      required this.thumbnailPath});
+  DisplayVIdeo(
+    [ this.pickedFile,
+       this.downloaded,
+       this.thumbnailPath]);
   @override
-  _VideoAppState createState() => _VideoAppState();
+  _DisplayVIdeoState createState() => _DisplayVIdeoState();
 }
 
-class _VideoAppState extends State<VideoApp> {
+class _DisplayVIdeoState extends State<DisplayVIdeo> {
   VideoPlayerController? _controller;
 
   @override
@@ -27,7 +28,7 @@ class _VideoAppState extends State<VideoApp> {
   Future<void> init() async {
     if (widget.downloaded == false) {
       print('video memory');
-      _controller = VideoPlayerController.file(File(widget.pickedFile));
+      _controller = VideoPlayerController.file(File(widget.pickedFile!));
       await _controller!.initialize();
 
     await  _controller!.setLooping(true);
@@ -38,7 +39,7 @@ class _VideoAppState extends State<VideoApp> {
       _controller!.play();
     } else {
       print('ideo net');
-      _controller = VideoPlayerController.network(widget.pickedFile)
+      _controller = VideoPlayerController.network(widget.pickedFile!)
         ..initialize().then((_) {
           _controller!.setLooping(true);
           // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
@@ -57,7 +58,8 @@ class _VideoAppState extends State<VideoApp> {
       appBar: AppBar(
           backgroundColor: Colors.black,
           iconTheme: IconThemeData(color: Colors.white)),
-      body: FutureBuilder(
+      body: Hero(
+          tag: widget.pickedFile!,child :FutureBuilder(
         future: init(),
         builder: (context, snapshot) {
           return Center(
@@ -88,13 +90,13 @@ class _VideoAppState extends State<VideoApp> {
                   )
                 : AspectRatio(
                     aspectRatio: _controller!.value.aspectRatio,
-                    child: widget.downloaded
-                        ? Image.network(widget.thumbnailPath)
-                        : Image.file(File(widget.thumbnailPath)),
+                    child: widget.downloaded!
+                        ? Image.network(widget.thumbnailPath!)
+                        : Image.file(File(widget.thumbnailPath!)),
                   ),
           );
         }
-      ),
+      )),
     );
   }
 

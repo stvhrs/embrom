@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class HomeScreen extends StatefulWidget {
-
+  static const routeName = '/ytScreen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen>
     }
     super.didChangeDependencies();
   }
+
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -73,12 +74,13 @@ class _HomeScreenState extends State<HomeScreen>
                 print(value.listVideos.length);
                 print('dari youtube');
                 _load();
-               
+
                 if (_loading &&
                     value.listVideos.length < value.items &&
                     scrollDetails.metrics.pixels ==
                         scrollDetails.metrics.maxScrollExtent) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar( duration: Duration(hours: 1),
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      duration: Duration(hours: 1),
                       animation: _tween.animate(CurvedAnimation(
                           parent: _controller, curve: Curves.linear)),
                       padding: EdgeInsets.all(0),
@@ -102,7 +104,6 @@ class _HomeScreenState extends State<HomeScreen>
               padding: EdgeInsets.only(top: 5),
               itemCount: value.listVideos.length,
               itemBuilder: (BuildContext context, int index) {
-              
                 Video video = value.listVideos[index];
                 return YoutubeItem(
                   index + 1,

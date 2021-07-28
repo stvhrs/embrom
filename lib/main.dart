@@ -9,6 +9,7 @@ import 'package:flutter_complete_guide/providers/messages_data.dart';
 import 'package:flutter_complete_guide/route/custom_route.dart';
 
 import 'package:flutter_complete_guide/screens/chat_screen.dart';
+import 'package:flutter_complete_guide/screens/display_image.dart';
 import 'package:flutter_complete_guide/screens/image_view.dart';
 import 'package:flutter_complete_guide/screens/introduction_screen.dart';
 import 'package:flutter_complete_guide/screens/people_screen.dart';
@@ -16,7 +17,7 @@ import 'package:flutter_complete_guide/screens/people_screen.dart';
 import 'package:flutter_complete_guide/screens/video_screen.dart';
 import 'package:flutter_complete_guide/screens/video_view.dart';
 import 'package:flutter_complete_guide/screens/youtube_screen.dart';
-
+import 'package:flutter_complete_guide/screens/display_video.dart';
 import 'package:flutter_complete_guide/screens/tab_screen.dart';
 import 'package:flutter_complete_guide/providers/youtube_api.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -83,33 +84,17 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: FirebaseAuth.instance.currentUser != null
-            ? TabsScreen()
-            : Introduction(),
-        initialRoute: '/',
-        routes: {
-          ChatScreen.routeName: (ctx) => ChatScreen(),
-          ChatRooms.routeName: (ctx) => ChatRooms(),
-          TabsScreen.routeName: (ctx) => TabsScreen(),
-          YoutubeAppDemo.routName: (ctx) => YoutubeAppDemo(),
-          ImageView.routeame :(ctx) =>ImageView(),
-           VideoView.routeame :(ctx) =>VideoView()
-        },
-        title: 'Embrom',
-        theme: ThemeData(
-            primaryColor: Color.fromRGBO(76, 175, 80, 1),
-            accentColor: Colors.grey,
-            primarySwatch: Colors.green,
-            elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ButtonStyle(
-              visualDensity: VisualDensity.comfortable,
-              backgroundColor:
-                  MaterialStateProperty.all(Colors.blueGrey.shade200),
-            )),
-            pageTransitionsTheme: PageTransitionsTheme(builders: {
-              TargetPlatform.android: CustomPageTransition(),
-              TargetPlatform.iOS: CustomPageTransition(),
-            })));
+      theme: ThemeData(
+          primaryColor: Color.fromRGBO(76, 175, 80, 1),
+          accentColor: Colors.grey,
+          primarySwatch: Colors.green,
+         ),
+      
+      title: 'Embrom',
+      debugShowCheckedModeBanner: false,
+      home: TabsScreen()
+         ,
+      initialRoute: '/',
+    );
   }
 }

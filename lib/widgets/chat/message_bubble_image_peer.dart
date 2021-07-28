@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_complete_guide/providers/loading.dart';
 import 'package:flutter_complete_guide/providers/messages_data.dart';
+import 'package:flutter_complete_guide/route/custom_route.dart';
 import 'package:flutter_complete_guide/screens/display_image.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,6 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
         alignment: Alignment.centerLeft,
         child: ConstrainedBox(
             constraints: BoxConstraints(
-            
               maxWidth: MediaQuery.of(context).size.width * 0.7,
             ),
             child: Card(
@@ -48,7 +48,7 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                           onTap: widget.message.localTo! == true
                               ? null
                               : () {
-                                  Navigator.of(context).push(MaterialPageRoute(
+                                  Navigator.of(context).push(CustomRoute2(
                                     builder: (context) => DisplayImage(
                                         widget.message.imagePrefTo!),
                                   ));

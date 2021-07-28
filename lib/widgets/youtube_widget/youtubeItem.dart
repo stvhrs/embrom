@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/models/video_model.dart';
+import 'package:flutter_complete_guide/route/custom_route.dart';
 import 'package:flutter_complete_guide/screens/video_screen.dart';
 
 class YoutubeItem extends StatefulWidget {
@@ -55,7 +56,7 @@ class _YoutubeItemState extends State<YoutubeItem> {
           splashColor: Theme.of(context).primaryColor,
           focusColor: Colors.lime,
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
+            Navigator.of(context).push(  CustomRoute(
               builder: (context) => YoutubeAppDemo(
                 id: widget.video.id,
                 index: widget.piro,

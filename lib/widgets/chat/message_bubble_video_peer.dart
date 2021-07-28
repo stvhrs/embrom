@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_complete_guide/providers/loading.dart';
 import 'package:flutter_complete_guide/providers/messages_data.dart';
+import 'package:flutter_complete_guide/route/custom_route.dart';
 import 'package:flutter_complete_guide/screens/display_image.dart';
 import 'package:flutter_complete_guide/screens/display_video.dart';
 import 'package:intl/intl.dart';
@@ -47,17 +48,19 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => VideoApp(
-                              downloaded: widget.message.localTo!,
-                              pickedFile: widget.message.localTo!
+                             var  downloaded= widget.message.localTo!;
+                            var pickedFile= widget.message.localTo!
                                   ? widget.message.videoUrl!
-                                  : widget.message.videoPrefTo!,
-                              thumbnailPath: widget.message.localTo!
+                                  : widget.message.videoPrefTo!;
+                            var  thumbnailPath= widget.message.localTo!
                                   ? widget.message.imageUrl!
-                                  : widget.message.imagePrefTo!,
-                            ),
-                          ));
+                                  : widget.message.imagePrefTo!;
+                            
+                          Navigator.of(context).push(CustomRoute2(
+                                    builder: (context) =>
+                            DisplayVIdeo(pickedFile,downloaded,thumbnailPath
+                         
+                          )));
                         },
                         child: Stack(alignment: Alignment.center,
                           children: [

@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_complete_guide/providers/loading.dart';
 import 'package:flutter_complete_guide/providers/messages_data.dart';
+import 'package:flutter_complete_guide/route/custom_route.dart';
 import 'package:flutter_complete_guide/screens/display_image.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +48,8 @@ class _BubbleMeImageState extends State<BubbleMeImage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
+                          Navigator.of(context).push(CustomRoute2(
+                                    builder: (context) =>
                                 DisplayImage(widget.message.imagePrefFrom!),
                           ));
                         },

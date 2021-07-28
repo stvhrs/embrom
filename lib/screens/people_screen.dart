@@ -4,13 +4,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_complete_guide/models/people_model.dart';
 
 import 'package:flutter_complete_guide/providers/messages_data.dart';
+import 'package:flutter_complete_guide/route/custom_route.dart';
 import 'package:flutter_complete_guide/screens/search_service.dart';
 import 'package:flutter_complete_guide/screens/chat_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ChatRooms extends StatefulWidget {
-  static const routeName = '/CR';
+  
   @override
   _ChatRoomsState createState() => _ChatRoomsState();
 }
@@ -88,8 +89,8 @@ class _ChatRoomsState extends State<ChatRooms>
               if (asu.docs.isEmpty || asu.docs.length == 0) {
                 Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatScreen(person),
+                   CustomRoute(
+                                    builder: (context) =>ChatScreen(person),
                     ));
               } else {
                 Provider.of<Messages2>(context, listen: false)
@@ -97,7 +98,7 @@ class _ChatRoomsState extends State<ChatRooms>
 
                 Navigator.push(
                     context,
-                    MaterialPageRoute(
+                      CustomRoute(
                       builder: (context) => ChatScreen(person),
                     ));
               }
