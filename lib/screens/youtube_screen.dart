@@ -102,9 +102,7 @@ class _HomeScreenState extends State<HomeScreen>
               padding: EdgeInsets.only(top: 5),
               itemCount: value.listVideos.length,
               itemBuilder: (BuildContext context, int index) {
-                // if (index == 0) {
-                //   return _buildProfileInfo();
-                // }
+              
                 Video video = value.listVideos[index];
                 return Test(
                   index + 1,
