@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class TabsScreen extends StatefulWidget {
-  static const routeName = '/TAB';
+  static const routeName = '/tab';
 
   State<StatefulWidget> createState() {
     return _TabsScreenState();

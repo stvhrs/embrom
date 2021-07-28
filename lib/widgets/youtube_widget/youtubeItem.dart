@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/models/video_model.dart';
 import 'package:flutter_complete_guide/screens/video_screen.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-class Test extends StatefulWidget {
 
-final  Video video;
- final   int piro;
- Test(this.piro,this.video);
+class YoutubeItem extends StatefulWidget {
+
+  final Video video;
+  final int piro;
+  YoutubeItem(this.piro, this.video);
 
   @override
-  _TestState createState() => _TestState();
+  _YoutubeItemState createState() => _YoutubeItemState();
 }
 
-class _TestState extends State<Test> {
+class _YoutubeItemState extends State<YoutubeItem> {
   @override
   Widget build(BuildContext context) {
-    
     String convertToTitleCase(String text) {
       if (text.length <= 1) {
         return text.toUpperCase();
@@ -24,12 +23,14 @@ class _TestState extends State<Test> {
       bool wkwk2 = widget.video.title!.contains(' || #SEKOLAHBONSAIGRATIS');
       if (wkwk) {
         text = widget.video.title!
-            .substring(0, widget.video.title!.indexOf(' | #SEKOLAHBONSAIGRATIS'))
+            .substring(
+                0, widget.video.title!.indexOf(' | #SEKOLAHBONSAIGRATIS'))
             .toLowerCase();
       }
       if (wkwk2) {
         text = widget.video.title!
-            .substring(0, widget.video.title!.indexOf(' || #SEKOLAHBONSAIGRATIS'))
+            .substring(
+                0, widget.video.title!.indexOf(' || #SEKOLAHBONSAIGRATIS'))
             .toLowerCase();
       }
       // Split string into multiple words
@@ -47,8 +48,6 @@ class _TestState extends State<Test> {
       return capitalizedWords.join(' ');
     }
 
-   
-
     print('build video');
     return Stack(
       children: [
@@ -56,32 +55,13 @@ class _TestState extends State<Test> {
           splashColor: Theme.of(context).primaryColor,
           focusColor: Colors.lime,
           onTap: () {
-            Route _createRoute() {
-              return PageRouteBuilder(barrierColor: Colors.transparent,
-                // transitionDuration: Duration(seconds: 1),
-                // reverseTransitionDuration: Duration(seconds: 1),
-                pageBuilder: (context, animation, secondaryAnimation) =>
-                    YoutubeAppDemo(
-                  id: widget.video.id,
-                  index: widget.piro,
-                  image: widget.video.thumbnailUrl,
-                ),
-                transitionsBuilder:
-                    (context, animation, secondaryAnimation, child) {
-                  var begin = Offset(1.0, 0.0);
-                  var end = Offset.zero;
-                  var curve = Curves.ease;
-                  var tween = Tween(begin: begin, end: end)
-                      .chain(CurveTween(curve: curve));
-                  return SlideTransition( 
-                    position: animation.drive(tween),
-                    child: child,
-                  );
-                },
-              );
-            }
-
-            Navigator.of(context).push(_createRoute());
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => YoutubeAppDemo(
+                id: widget.video.id,
+                index: widget.piro,
+                image: widget.video.thumbnailUrl,
+              ),
+            ));
           },
           child: Container(
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
@@ -119,7 +99,7 @@ class _TestState extends State<Test> {
                       borderRadius: BorderRadius.circular(10),
                       child: FadeInImage.assetNetwork(
                         placeholder: 'assets/yg.png',
-                        image:widget.video.thumbnailUrl!,
+                        image: widget.video.thumbnailUrl!,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -140,7 +120,8 @@ class _TestState extends State<Test> {
           ),
         ),
         Positioned(
-            right: 14,top: 0,
+            right: 14,
+            top: 0,
             child: CircleAvatar(
               maxRadius: 14,
               backgroundColor: Colors.green[900],

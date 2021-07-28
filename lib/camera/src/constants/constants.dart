@@ -7,11 +7,12 @@ import 'dart:developer';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_complete_guide/wechat/src/delegates/camera_picker_text_delegate.dart';
+import 'package:flutter_complete_guide/camera/camrea/delegates/camera_picker_text_delegate.dart';
 
 
 
-export '../delegates/camera_picker_text_delegate.dart';
+
+
 export 'colors.dart';
 export 'screens.dart';
 

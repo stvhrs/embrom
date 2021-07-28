@@ -10,7 +10,7 @@ import '../widgets/youtube_widget/metadata_section.dart';
 import '../widgets/youtube_widget/play_pause_button_bar.dart';
 
 class YoutubeAppDemo extends StatefulWidget {
-  static const String routName = '/YT';
+  static const String routName = '/youtubeVideo';
   final String? id;
   final int? index;
   final String? image;

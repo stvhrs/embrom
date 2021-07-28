@@ -6,12 +6,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_complete_guide/providers/loading.dart';
 
 import 'package:flutter_complete_guide/providers/messages_data.dart';
+import 'package:flutter_complete_guide/route/custom_route.dart';
 
 import 'package:flutter_complete_guide/screens/chat_screen.dart';
+import 'package:flutter_complete_guide/screens/image_view.dart';
 import 'package:flutter_complete_guide/screens/introduction_screen.dart';
 import 'package:flutter_complete_guide/screens/people_screen.dart';
 
 import 'package:flutter_complete_guide/screens/video_screen.dart';
+import 'package:flutter_complete_guide/screens/video_view.dart';
 import 'package:flutter_complete_guide/screens/youtube_screen.dart';
 
 import 'package:flutter_complete_guide/screens/tab_screen.dart';
@@ -89,27 +92,24 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ChatScreen.routeName: (ctx) => ChatScreen(),
           ChatRooms.routeName: (ctx) => ChatRooms(),
           TabsScreen.routeName: (ctx) => TabsScreen(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          //  SearchIndex.routeName: (ctx) => SearchIndex(),
-          YoutubeAppDemo.routName: (ctx) => YoutubeAppDemo()
+          YoutubeAppDemo.routName: (ctx) => YoutubeAppDemo(),
+          ImageView.routeame :(ctx) =>ImageView(),
+           VideoView.routeame :(ctx) =>VideoView()
         },
         title: 'Embrom',
         theme: ThemeData(
-          primaryColor: Color.fromRGBO(76, 175, 80, 1),
-          accentColor: Colors.grey,
-          primarySwatch: Colors.green,
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ButtonStyle(
-            visualDensity: VisualDensity.comfortable,
-            backgroundColor:
-                MaterialStateProperty.all(Colors.blueGrey.shade200),
-          )),
-          // pageTransitionsTheme: PageTransitionsTheme(builders: {
-          //   TargetPlatform.android: CustomPageTransition(),
-          //   TargetPlatform.iOS: CustomPageTransition(),
-          // }
-
-          // )
-        ));
+            primaryColor: Color.fromRGBO(76, 175, 80, 1),
+            accentColor: Colors.grey,
+            primarySwatch: Colors.green,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+              visualDensity: VisualDensity.comfortable,
+              backgroundColor:
+                  MaterialStateProperty.all(Colors.blueGrey.shade200),
+            )),
+            pageTransitionsTheme: PageTransitionsTheme(builders: {
+              TargetPlatform.android: CustomPageTransition(),
+              TargetPlatform.iOS: CustomPageTransition(),
+            })));
   }
 }

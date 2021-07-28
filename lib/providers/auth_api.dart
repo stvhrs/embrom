@@ -17,16 +17,6 @@ class AuthProvider with ChangeNotifier {
 
   Future<bool> signInWithGoogle() async {
     try {
-//       if (await Permission.contacts.request().isGranted) {
-//   // Either the permission was already granted before or the user just granted it.
-// }
-
-// // You can request multiple permissions at once.
-// Map<Permission, PermissionStatus> statuses = await [
-//   Permission.accessMediaLocation,Permission.camera,Permission.microphone,Permission.manageExternalStorage,
-//   Permission.storage,
-// ].request();
-// print(statuses[Permission.location]);
       print('sign in');
       final GoogleSignInAccount? googleSignInAccount =
           await (googleSignIn?.signIn());
@@ -53,7 +43,7 @@ class AuthProvider with ChangeNotifier {
         }
       }
 
-   //    await GallerySaver.saveImage(user.photoURL!, albumName: 'Embrom2',);
+      //    await GallerySaver.saveImage(user.photoURL!, albumName: 'Embrom2',);
       var status = await OneSignal.shared.getDeviceState();
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'nickname': user.displayName,

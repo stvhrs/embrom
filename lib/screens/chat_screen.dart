@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
-  static const routeName = '/CS';
+  static const routeName = '/chat';
   final Person? person;
 
   ChatScreen([

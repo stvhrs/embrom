@@ -12,7 +12,7 @@ import 'package:flutter_complete_guide/widgets/chat/message_bubble_video_me.dart
 import 'package:flutter_complete_guide/widgets/chat/message_bubble_video_peer.dart';
 import 'package:provider/provider.dart';
 import 'message_bubble_peer.dart';
-import 'package:grouped_list/grouped_list.dart';
+
 
 class Messages extends StatefulWidget {
   @override

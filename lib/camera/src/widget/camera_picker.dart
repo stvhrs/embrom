@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
+import 'package:flutter_complete_guide/camera/camrea/delegates/camera_picker_text_delegate.dart';
 import 'package:flutter_complete_guide/models/people_model.dart';
 import 'package:flutter_complete_guide/screens/image_view.dart';
 import 'package:flutter_complete_guide/screens/video_view.dart';
@@ -735,7 +736,7 @@ class CameraPickerState extends State<CameraPicker>
     if (controller.value.isInitialized && !controller.value.isTakingPicture) {
       XFile image = await controller.takePicture();
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => CameraViewPage(
+        builder: (context) => ImageView(
           path: image.path,
           person: widget.person,pop: false,
         ),
@@ -831,7 +832,7 @@ class CameraPickerState extends State<CameraPicker>
     if (controller.value.isRecordingVideo) {
       await controller.stopVideoRecording().then((XFile file) async {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => VideoViewPage(
+          builder: (context) => VideoView(
             path: file.path,
             person: widget.person,pop: false,
           ),

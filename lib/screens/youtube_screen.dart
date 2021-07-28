@@ -6,12 +6,12 @@ import 'package:flutter_complete_guide/models/video_model.dart';
 import 'package:flutter_complete_guide/screens/video_screen.dart';
 import 'package:flutter_complete_guide/providers/youtube_api.dart';
 import 'package:flutter_complete_guide/widgets/splash.dart';
-import 'package:flutter_complete_guide/widgets/testotot.dart';
+import 'package:flutter_complete_guide/widgets/youtube_widget/youtubeItem.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const routeName = '/GB';
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen>
               itemBuilder: (BuildContext context, int index) {
               
                 Video video = value.listVideos[index];
-                return Test(
+                return YoutubeItem(
                   index + 1,
                   video,
                 );

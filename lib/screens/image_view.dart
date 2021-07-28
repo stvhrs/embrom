@@ -13,16 +13,17 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-class CameraViewPage extends StatefulWidget {
-  const CameraViewPage({this.path, this.person, required this.pop});
+class ImageView extends StatefulWidget {
+  static const routeame = '/displayImage';
+  const ImageView({this.path, this.person,  this.pop});
   final String? path;
   final Person? person;
-  final bool pop;
+  final bool? pop;
   @override
-  _CameraViewPageState createState() => _CameraViewPageState();
+  _ImageViewState createState() => _ImageViewState();
 }
 
-class _CameraViewPageState extends State<CameraViewPage> {
+class _ImageViewState extends State<ImageView> {
   FocusNode _focusNode = FocusNode();
   final _controller = TextEditingController();
   var _enterMessage = '';
@@ -113,7 +114,7 @@ class _CameraViewPageState extends State<CameraViewPage> {
                     await _sendMessage();
                     int count = 0;
                     Navigator.popUntil(context, (route) {
-                      return count++ == (widget.pop ? 1 : 2);
+                      return count++ == (widget.pop==true ? 1 : 2);
                     });
                   }),
             ],

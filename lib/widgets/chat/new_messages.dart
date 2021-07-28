@@ -2,6 +2,9 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_complete_guide/camera/src/widget/camera_picker.dart';
+import 'package:flutter_complete_guide/camera/src/wechat/wechat_camera_picker.dart';
+
 import 'package:flutter_complete_guide/models/people_model.dart';
 import 'package:flutter_complete_guide/providers/messages_data.dart';
 
@@ -13,7 +16,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-import 'package:flutter_complete_guide/wechat/wechat_camera_picker.dart';
 
 class NewMessage extends StatefulWidget {
   final Person? person;
@@ -54,7 +56,7 @@ class _NewMessageState extends State<NewMessage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => VideoViewPage(
+                  builder: (context) => VideoView(
                       person: widget.person,
                       path: result.files.single.path!,
                       pop: true)));
@@ -62,7 +64,7 @@ class _NewMessageState extends State<NewMessage> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CameraViewPage(
+                  builder: (context) => ImageView(
                       person: widget.person,
                       path: result.files.single.path!,
                       pop: true)));

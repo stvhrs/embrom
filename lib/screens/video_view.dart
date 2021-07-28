@@ -12,17 +12,18 @@ import 'package:video_player/video_player.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:intl/intl.dart';
 
-class VideoViewPage extends StatefulWidget {
-  const VideoViewPage({this.path, this.person, required this.pop});
+class VideoView extends StatefulWidget {
+    static const routeame = '/displayVideo';
+  const VideoView({this.path, this.person, this.pop});
   final String? path;
   final Person? person;
-  final bool pop;
+  final bool? pop;
 
   @override
-  _VideoViewPageState createState() => _VideoViewPageState();
+  _VideoViewState createState() => _VideoViewState();
 }
 
-class _VideoViewPageState extends State<VideoViewPage> {
+class _VideoViewState extends State<VideoView> {
   late VideoPlayerController _controller;
 
   @override
@@ -192,7 +193,7 @@ class _VideoViewPageState extends State<VideoViewPage> {
                 await _sendVideo();
                 int count = 0;
                 Navigator.popUntil(context, (route) {
-                  return count++ == (widget.pop ? 1 : 2);
+                  return count++ == (widget.pop==true ? 1 : 2);
                 });
               }),
         ],
