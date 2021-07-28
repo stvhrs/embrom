@@ -52,7 +52,7 @@ class APIService with ChangeNotifier {
       'playlistId': playlistId,
       'pageToken': _nextPageToken??"",
       'maxResults': '8',
-      'key': API_KEY,
+      'key': 'AIzaSyBRnn7ViKwsP_IDRsvqAz_qxVQnZfuLl84',
     };
 
     Uri uri = Uri.https(
