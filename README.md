@@ -1,6 +1,6 @@
 # embrom
 
-A new Flutter project.
+Let's Learn FLutter 
 
 ## Getting Started
 
