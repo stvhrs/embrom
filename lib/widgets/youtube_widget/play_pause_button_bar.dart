@@ -39,7 +39,7 @@ class _PlayPauseButtonBarState extends State<PlayPauseButtonBar>
       children: [
         YoutubeValueBuilder(
           builder: (context, value) {
-            return IconButton(
+            return IconButton(color: Colors.green,
               onPressed: () {
                 if (value.playerState == PlayerState.playing) {
                   context.ytController.onEnterFullscreen!();
@@ -56,17 +56,10 @@ class _PlayPauseButtonBarState extends State<PlayPauseButtonBar>
             );
           },
         ),
-        IconButton(
-          icon: const Icon(Icons.skip_previous),
-          onPressed: ()  {
-            context.ytController.pause();
-            Future.delayed(Duration(milliseconds: 300), () {Navigator.of(context).pop();});
-            
-          },
-        ),
+       
         YoutubeValueBuilder(
           builder: (context, value) {
-            return IconButton(
+            return IconButton(color: Colors.green,
               onPressed: () {
                 (value.isReady)
                     ? value.playerState == PlayerState.playing
@@ -85,7 +78,7 @@ class _PlayPauseButtonBarState extends State<PlayPauseButtonBar>
         ValueListenableBuilder<bool>(
           valueListenable: _isMuted,
           builder: (context, isMuted, _) {
-            return IconButton(
+            return IconButton(color: Colors.green,
               icon: Icon(isMuted ? Icons.volume_off : Icons.volume_up),
               onPressed: () {
                 _isMuted.value = !isMuted;

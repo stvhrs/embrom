@@ -128,8 +128,8 @@ class Messages2 with ChangeNotifier {
         //Video
         File _pickedFilePathVideo = File(message.videoPrefFrom!);
 
-        File downloadToFileVideo = await _pickedFilePathVideo
-            .copy('${appDocDir.path}/${data['timestamp']}.mp4');
+        File downloadToFileVideo = await _pickedFilePathVideo;
+        // .copy('${appDocDir.path}/${data['timestamp']}.mp4');
 
         final refVideo = FirebaseStorage.instance
             .ref()
@@ -156,7 +156,7 @@ class Messages2 with ChangeNotifier {
         } else {
           groupChatId = '$peerId-${user!.uid}';
         }
-       data['groupChatId'] = groupChatId;
+        data['groupChatId'] = groupChatId;
         Map<String, dynamic> data2 = {
           'id': person.uid,
           'nickname': person.nickName,
@@ -192,7 +192,7 @@ class Messages2 with ChangeNotifier {
           'lastMessage': message.message,
           'readed': message.readed,
         });
-       
+
         await FirebaseFirestore.instance
             .collection('messages')
             .doc(groupChatId)
@@ -308,7 +308,11 @@ class Messages2 with ChangeNotifier {
 
         "headings": {"en": FirebaseAuth.instance.currentUser!.displayName},
 
-        "contents": {"en": message.message},
+        "contents": {
+          "en": message.messageType != 'chat'
+              ? 'Media: ' + message.message!
+              : ': ' + message.message!
+        },
       }),
     );
   }

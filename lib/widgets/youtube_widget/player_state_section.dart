@@ -11,23 +11,27 @@ class PlayerStateSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return YoutubeValueBuilder(
       builder: (context, value) {
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 800),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            color: _getStateColor(value.playerState)!,
-          ),
-          width: 50,
-          height: 20,
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            _getStateString(value.playerState)!,
-            style: const TextStyle(
-              fontWeight: FontWeight.w300,
-              color: Colors.white,
-            ),
-            textAlign: TextAlign.center,
-          ),
+        return Stack(alignment: Alignment.center,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 800),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                color: _getStateColor(value.playerState)!,
+              ),
+              width: 100,
+              height: 20,
+              padding: const EdgeInsets.all(8.0),
+            
+            ),Text(
+                _getStateString(value.playerState)!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w300,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+          ],
         );
       },
     );
@@ -36,7 +40,7 @@ class PlayerStateSection extends StatelessWidget {
   String? _getStateString(PlayerState state) {
     switch (state) {
       case PlayerState.unknown:
-        return 'Unknown';
+        return 'Waiting';
       case PlayerState.unStarted:
         return 'Loading';
       case PlayerState.ended:

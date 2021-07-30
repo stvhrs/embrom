@@ -13,7 +13,7 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 import 'package:intl/intl.dart';
 
 class VideoView extends StatefulWidget {
-    static const routeame = '/videoView';
+
   const VideoView({this.path, this.person, this.pop});
   final String? path;
   final Person? person;
@@ -193,7 +193,7 @@ class _VideoViewState extends State<VideoView> {
                 await _sendVideo();
                 int count = 0;
                 Navigator.popUntil(context, (route) {
-                  return count++ == (widget.pop==true ? 1 : 2);
+                  return count++ == (widget.pop == true ? 1 : 2);
                 });
               }),
         ],
@@ -210,10 +210,7 @@ class _VideoViewState extends State<VideoView> {
               children: [
                 Container(
                   child: _controller.value.isInitialized
-                      ? AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        )
+                      ? VideoPlayer(_controller)
                       : Container(child: CircularProgressIndicator()),
                 ),
                 playControlButton

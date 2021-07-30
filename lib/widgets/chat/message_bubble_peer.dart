@@ -53,7 +53,7 @@ class _MessageBubblePeerState extends State<MessageBubblePeer> {
                                   top: 5,
                                   bottom: 20,
                                 ),
-                                child: Text(
+                                child:SelectableText(
                                   widget.message.message.toString(),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(

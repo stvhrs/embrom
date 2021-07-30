@@ -83,7 +83,8 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                                             : Image.network(
                                                 widget.message.imageUrl!,  fit: BoxFit.cover,),
                                       )),
-                                )),
+                                )),Positioned.fill(
+                                    child:Icon(Icons.play_arrow,color: Colors.white,)),
                             widget.message.localTo == false
                                 ? SizedBox()
                                 : 
@@ -106,7 +107,7 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                           top: 5,
                           bottom: 20,
                         ),
-                        child: Text(
+                        child: SelectableText(
                           widget.message.message.toString(),
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 16, color:Colors.white,),
@@ -129,14 +130,7 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                           SizedBox(
                             width: 5,
                           ),
-                          widget.message.localTo== false
-                              ? Icon(
-                                  Icons.check_circle_outline_rounded,
-                                  color: widget.message.readed!
-                                      ? Colors.blue
-                                      : Colors.grey,
-                                )
-                              : Icon(Icons.av_timer)
+                         
                                       
                         ],
                       ))

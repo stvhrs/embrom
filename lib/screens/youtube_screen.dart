@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const routeName = '/ytScreen';
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -57,11 +57,7 @@ class _HomeScreenState extends State<HomeScreen>
   Widget build(BuildContext context) {
     print('rebuild Youtube');
 
-    return RefreshIndicator(
-      onRefresh: _load,
-      edgeOffset: 1,
-      triggerMode: RefreshIndicatorTriggerMode.anywhere,
-      child: Scaffold(
+    return  Scaffold(
         backgroundColor: Colors.grey.shade900,
         body: Consumer<APIService>(
           builder: (context, value, child) =>
@@ -113,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
         ),
-      ),
+     
     );
   }
 }

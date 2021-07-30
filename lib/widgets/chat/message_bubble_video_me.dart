@@ -39,7 +39,7 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                 elevation: 1,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
-                color:Color.fromRGBO(35, 35, 35,1),
+                color:Colors.grey.shade800,
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Stack(children: [
                   Column(
@@ -72,7 +72,8 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                                           fit: BoxFit.cover,
                                         ),
                                       )),
-                                )),
+                                )),Positioned.fill(
+                                    child:Icon(Icons.play_arrow,color: Colors.white,)),
                             widget.message.localFrom == false
                                 ? SizedBox()
                                 : Positioned.fill(
@@ -98,7 +99,7 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                         child: Text(
                           widget.message.message.toString(),
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16, color: Colors.black),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ],
@@ -108,7 +109,7 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                       right: 10,
                       child: Row(
                         children: [
-                          Text(
+                         SelectableText(
                             widget.message.createdAt.toString(),
                             style: TextStyle(
                               fontSize: 13,

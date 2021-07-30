@@ -11,7 +11,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ChatRooms extends StatefulWidget {
-  
   @override
   _ChatRoomsState createState() => _ChatRoomsState();
 }
@@ -89,8 +88,8 @@ class _ChatRoomsState extends State<ChatRooms>
               if (asu.docs.isEmpty || asu.docs.length == 0) {
                 Navigator.push(
                     context,
-                   CustomRoute(
-                                    builder: (context) =>ChatScreen(person),
+                    CustomRoute(
+                      builder: (context) => ChatScreen(person),
                     ));
               } else {
                 Provider.of<Messages2>(context, listen: false)
@@ -98,7 +97,7 @@ class _ChatRoomsState extends State<ChatRooms>
 
                 Navigator.push(
                     context,
-                      CustomRoute(
+                    CustomRoute(
                       builder: (context) => ChatScreen(person),
                     ));
               }
@@ -123,7 +122,7 @@ class _ChatRoomsState extends State<ChatRooms>
                   ? Row(
                       children: [
                         Icon(
-                          Icons.check_circle_rounded,
+                          Icons.check_circle_rounded,size: 15,
                           color: person.readed! ? Colors.green : Colors.grey,
                         ),
                         Flexible(
@@ -132,7 +131,8 @@ class _ChatRoomsState extends State<ChatRooms>
                           overflow: TextOverflow.ellipsis,
                         )),
                       ],
-                    ):Row(
+                    )
+                  : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(
@@ -143,13 +143,21 @@ class _ChatRoomsState extends State<ChatRooms>
                           ),
                         ),
                         if (d.data()!['before'] != 0)
-                        person.readed! ? SizedBox():  CircleAvatar(
-                            radius: 10,
-                            child: Text(d.data()!['before'].toString()),
-                          )
+                          person.readed!
+                              ? SizedBox()
+                              : Stack(alignment: Alignment.topCenter,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 8,
+                                    ),
+                                   Text(
+                                      d.data()!['before'].toString(),
+                                      style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,
+                                    ) ,
+                                  ],
+                                )
                       ],
-                    )
-                  ,
+                    ),
               key: ValueKey(i),
             )));
     ;

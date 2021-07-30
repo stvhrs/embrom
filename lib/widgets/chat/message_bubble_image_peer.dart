@@ -105,7 +105,7 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                             top: 5,
                             bottom: 20,
                           ),
-                          child: Text(
+                          child: SelectableText(
                             widget.message.message.toString(),
                             textAlign: TextAlign.left,
                             style: TextStyle(

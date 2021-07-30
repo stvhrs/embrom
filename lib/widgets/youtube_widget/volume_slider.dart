@@ -15,7 +15,7 @@ class VolumeSlider extends StatelessWidget {
       children: <Widget>[
         const Text(
           "Volume",
-          style: TextStyle(fontWeight: FontWeight.w300),
+          style: TextStyle(color: Colors.white,fontWeight: FontWeight.w300),
         ),
         Expanded(
           child: ValueListenableBuilder(

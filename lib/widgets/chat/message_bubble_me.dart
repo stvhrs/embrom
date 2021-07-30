@@ -38,7 +38,7 @@ class _MessageBubbleMeState extends State<MessageBubbleMe> {
                 elevation: 1,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
-                color:Color.fromRGBO(35, 35, 35,1),
+                color:Colors.grey.shade800,
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Stack(children: [
                   Column(
@@ -53,7 +53,7 @@ class _MessageBubbleMeState extends State<MessageBubbleMe> {
                           bottom:
                               20,
                         ),
-                        child: Text(
+                        child: SelectableText(
                           widget.message.message.toString(),
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 16, color: Colors.white),

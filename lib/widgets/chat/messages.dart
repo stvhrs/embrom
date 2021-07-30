@@ -13,7 +13,6 @@ import 'package:flutter_complete_guide/widgets/chat/message_bubble_video_peer.da
 import 'package:provider/provider.dart';
 import 'message_bubble_peer.dart';
 
-
 class Messages extends StatefulWidget {
   @override
   _MessagesState createState() => _MessagesState();
@@ -43,7 +42,7 @@ class _MessagesState extends State<Messages> {
         itemCount: val.hen.length,
         reverse: true,
         itemBuilder: (context, int index) {
-            if (val.hen[index]['messageType'] == 'image' &&
+          if (val.hen[index]['messageType'] == 'image' &&
               val.hen[index]['idFrom'] ==
                   FirebaseAuth.instance.currentUser!.uid) {
             return BubbleMeImage(message: Message.fromMap(val.hen[index]));
@@ -56,10 +55,9 @@ class _MessagesState extends State<Messages> {
           if (val.hen[index]['messageType'] == 'chat' &&
               val.hen[index]['idFrom'] !=
                   FirebaseAuth.instance.currentUser!.uid) {
-            return MessageBubblePeer(
-                message: Message.fromMap(val.hen[index]));
+            return MessageBubblePeer(message: Message.fromMap(val.hen[index]));
           }
-       
+
           if (val.hen[index]['messageType'] == 'image' &&
               val.hen[index]['idFrom'] !=
                   FirebaseAuth.instance.currentUser!.uid) {
@@ -79,9 +77,16 @@ class _MessagesState extends State<Messages> {
           }
         },
         separatorBuilder: (BuildContext context, int index) {
-          
-          if (val.hen[index]['day'] != val.hen[index +1]['day'])
-            return Text(val.hen[index]['day']);
+          if (val.hen[index]['day'] != val.hen[index + 1]['day'])
+            return Container(
+              alignment: Alignment.center,
+              margin: EdgeInsets.all(30),
+              child: Text(
+                val.hen[index]['day'],
+                style: TextStyle(color: Colors.green),
+              ),
+            );
+
           return SizedBox();
         },
       );
