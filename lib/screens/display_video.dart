@@ -3,7 +3,6 @@ import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
 class DisplayVIdeo extends StatefulWidget {
-
   final String? pickedFile;
   final bool? downloaded;
   final String? thumbnailPath;
@@ -15,11 +14,17 @@ class DisplayVIdeo extends StatefulWidget {
 
 class _DisplayVIdeoState extends State<DisplayVIdeo> {
   VideoPlayerController? _controller;
-
   @override
   void initState() {
     super.initState();
     init();
+  }
+
+  final ValueNotifier<bool> isPlaying = ValueNotifier<bool>(false);
+  void videoPlayerListener() {
+    if (_controller!.value.isPlaying != isPlaying.value) {
+      isPlaying.value = _controller!.value.isPlaying;
+    }
   }
 
   Future<void> init() async {
@@ -27,8 +32,9 @@ class _DisplayVIdeoState extends State<DisplayVIdeo> {
       print('video memory');
       _controller = VideoPlayerController.file(File(widget.pickedFile!));
       await _controller!.initialize();
+      _controller!.addListener(videoPlayerListener);
 
-      await _controller!.setLooping(true);
+      // await _controller!.setLooping(true);
       // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
       if (mounted) {
         setState(() {});
@@ -36,68 +42,126 @@ class _DisplayVIdeoState extends State<DisplayVIdeo> {
       await _controller!.play();
     } else {
       print('ideo net');
-      _controller = VideoPlayerController.network(widget.pickedFile!)
-        ..initialize().then((_) {
-          _controller!.setLooping(true);
-          // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-          if (mounted) {
-            setState(() {});
-          }
-          _controller!.play();
-        });
+      _controller = VideoPlayerController.network(widget.pickedFile!);
+      _controller!.addListener(videoPlayerListener);
+
+      _controller!.initialize();
+      // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+      if (mounted) {
+        setState(() {});
+      }
+      _controller!.play();
     }
   }
+
+  Future<void> playButtonCallback() async {
+    if (isPlaying.value) {
+      _controller!.pause();
+    } else {
+      if (_controller!.value.duration == _controller!.value.position) {
+        _controller!
+          ..seekTo(Duration.zero)
+          ..play();
+      } else {
+        _controller!.play();
+      }
+    }
+  }
+
+  // Widget get playControlButton {
+  //   return ValueListenableBuilder<bool>(
+  //     valueListenable: isPlaying,
+  //     builder: (_, bool value, Widget? child) => GestureDetector(
+  //       behavior: HitTestBehavior.opaque,
+  //       onTap: value ? playButtonCallback : null,
+  //       child: Center(
+  //         child: AnimatedOpacity(
+  //           duration: Duration(milliseconds: 300),
+  //           opacity: value ? 0.0 : 1.0,
+  //           child: GestureDetector(
+  //             onTap: playButtonCallback,
+  //             child: DecoratedBox(
+  //               decoration: const BoxDecoration(
+  //                 boxShadow: <BoxShadow>[BoxShadow(color: Colors.black12)],
+  //                 shape: BoxShape.circle,
+  //               ),
+  //               child: Icon(
+  //                 value ? Icons.pause_circle_outline : Icons.play_circle_filled,
+  //                 size: 70.0,
+  //                 color: Colors.white,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-          backgroundColor: Colors.black,
-          iconTheme: IconThemeData(color: Colors.white)),
-      body: Hero(
-          tag: widget.pickedFile!,
-          child: FutureBuilder(
-              future: init(),
-              builder: (context, snapshot) {
-                return Center(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+            backgroundColor: Colors.black,
+            iconTheme: IconThemeData(color: Colors.white)),
+        body: ValueListenableBuilder<bool>(
+          valueListenable: isPlaying,
+          builder: (_, bool value, Widget? child) => GestureDetector(
+            onTap: () {
+              playButtonCallback();
+            },
+            child: Hero(
+                tag: widget.pickedFile!,
+                child: Center(
                   child: _controller!.value.isInitialized
                       ? Stack(
                           alignment: Alignment.center,
                           children: [
-                            AspectRatio(
-                              aspectRatio: _controller!.value.aspectRatio,
-                              child: VideoPlayer(_controller!),
+                            Container(width: double.infinity,
+                              child: AspectRatio(
+                                aspectRatio: _controller!.value.aspectRatio,
+                                child: VideoPlayer(_controller!),
+                              ),
                             ),
-                            CircleAvatar(
-                              radius: 30,
-                              child: IconButton(
-                                  onPressed: () {
-                                    _controller!.value.isPlaying
-                                        ? _controller!.pause()
-                                        : _controller!.play();
-                                  },
-                                  icon: Icon(
-                                    _controller!.value.isPlaying
-                                        ? Icons.pause
-                                        : Icons.play_arrow,
+                            AnimatedOpacity(
+                              duration: Duration(milliseconds: 300),
+                              opacity: value ? 0.0 : 1.0,
+                              child: GestureDetector(
+                                onTap: playButtonCallback,
+                                child: DecoratedBox(
+                                  decoration: const BoxDecoration(
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(color: Colors.black12)
+                                    ],
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    value
+                                        ? Icons.pause_circle_outline
+                                        : Icons.play_circle_filled,
+                                    size: 70.0,
                                     color: Colors.white,
-                                  )),
-                            )
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         )
                       : widget.downloaded!
-                          ? Image.network(widget.thumbnailPath!)
-                          : Image.file(File(widget.thumbnailPath!)),
-                );
-              })),
-    );
+                          ? Container(width: double.infinity,
+                          child:Image.network(widget.thumbnailPath!,fit: BoxFit.fitWidth,))
+                          : Container(width: double.infinity,
+                          child:Image.file(File(widget.thumbnailPath!),fit: BoxFit.fitWidth)),
+                )),
+          ),
+        ));
   }
 
   @override
   void dispose() {
     super.dispose();
-
+    _controller!.removeListener(videoPlayerListener);
     _controller!.dispose();
   }
 }

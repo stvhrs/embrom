@@ -5,7 +5,7 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import '../models/http_execption.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,9 +15,9 @@ class AuthProvider with ChangeNotifier {
   final FirebaseAuth? _auth = FirebaseAuth.instance;
   final GoogleSignIn? googleSignIn = GoogleSignIn();
 
-  Future<bool> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     try {
-      print('sign in');
+    
       final GoogleSignInAccount? googleSignInAccount =
           await (googleSignIn?.signIn());
 
@@ -43,7 +43,6 @@ class AuthProvider with ChangeNotifier {
         }
       }
 
-      //    await GallerySaver.saveImage(user.photoURL!, albumName: 'Embrom2',);
       var status = await OneSignal.shared.getDeviceState();
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
         'nickname': user.displayName,
@@ -54,19 +53,47 @@ class AuthProvider with ChangeNotifier {
         'searchIndex': indexList,
         'oneSignal': status!.userId
       });
-      return true;
+      var groupChatId;
+
+      var peerId = 'KSgTOKF4kifJqsfIfNuUvnY2JrJ2';
+      if (user.uid.hashCode <= peerId.hashCode) {
+        groupChatId = '${user.uid}-$peerId';
+      } else {
+        groupChatId = '$peerId-${user.uid}';
+      }
+      Map<String, dynamic> data2 = {
+        'id': 'KSgTOKF4kifJqsfIfNuUvnY2JrJ2',
+        'nickname': 'Steve Harris',
+        'groupChatId': groupChatId,
+        'createdAt': DateTime.now(),
+        'photo':
+            'https://lh3.googleusercontent.com/a-/AOh14GjOrDoBKgqPp80UM5t5__HXZxlyN-AK269Br8sh=s96-c',
+        'oneSignal': '9d70b8b8-dab0-4df4-ae7c-110a4631f9c9',
+        'before': 0,
+        'lastMessage': 'Hai i am Embrom',
+        'readed': false,
+      };
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection(user.uid)
+          .doc(peerId)
+          .set(data2);
+      return ;
     } catch (err) {
-      throw HttpException(err.toString());
+      
     }
   }
 
   Future<void> clearPrefs() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'oneSignal': ''});
     await googleSignIn?.signOut();
     await _auth!.signOut();
-    final prefs = await SharedPreferences.getInstance();
-    prefs.clear();
 
-    print('logout');
     notifyListeners();
   }
 }

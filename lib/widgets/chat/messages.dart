@@ -33,7 +33,8 @@ class _MessagesState extends State<Messages> {
       //   });
       // }
       if (val.hen.isEmpty) {
-        return Center(child: Text('Empty'));
+        return Center(
+            child: Text('Empty', style: TextStyle(color: Colors.white)));
       }
       return ListView.separated(
         controller: _scrollController,

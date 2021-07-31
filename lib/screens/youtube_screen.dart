@@ -96,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen>
               return false;
             },
             child: ListView.builder(
-              physics: BouncingScrollPhysics(),
+             
               padding: EdgeInsets.only(top: 5),
               itemCount: value.listVideos.length,
               itemBuilder: (BuildContext context, int index) {

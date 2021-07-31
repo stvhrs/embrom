@@ -120,35 +120,6 @@ class _VideoViewState extends State<VideoView> {
     }
   }
 
-  Widget get playControlButton {
-    return ValueListenableBuilder<bool>(
-      valueListenable: isPlaying,
-      builder: (_, bool value, Widget? child) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: value ? playButtonCallback : null,
-        child: Center(
-          child: AnimatedOpacity(
-            duration: Duration(milliseconds: 300),
-            opacity: value ? 0.0 : 1.0,
-            child: GestureDetector(
-              onTap: playButtonCallback,
-              child: DecoratedBox(
-                decoration: const BoxDecoration(
-                  boxShadow: <BoxShadow>[BoxShadow(color: Colors.black12)],
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  value ? Icons.pause_circle_outline : Icons.play_circle_filled,
-                  size: 70.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +171,12 @@ class _VideoViewState extends State<VideoView> {
       ),
       backgroundColor: Colors.transparent,
       body: SafeArea(
-        child: Container(
+        child:ValueListenableBuilder<bool>(
+      valueListenable: isPlaying,
+      builder: (_, bool value, Widget? child) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap:  playButtonCallback ,
+        child:  Container(
           decoration: BoxDecoration(),
           alignment: Alignment.center,
           width: MediaQuery.of(context).size.width,
@@ -210,15 +186,32 @@ class _VideoViewState extends State<VideoView> {
               children: [
                 Container(
                   child: _controller.value.isInitialized
-                      ? VideoPlayer(_controller)
+                      ? AspectRatio(aspectRatio:_controller.value.aspectRatio , child: Container(width: double.infinity,child: VideoPlayer(_controller)))
                       : Container(child: CircularProgressIndicator()),
                 ),
-                playControlButton
+               AnimatedOpacity(
+            duration: Duration(milliseconds: 300),
+            opacity: value ? 0.0 : 1.0,
+            child: GestureDetector(
+              onTap: playButtonCallback,
+              child: DecoratedBox(
+                decoration: const BoxDecoration(
+                  boxShadow: <BoxShadow>[BoxShadow(color: Colors.black12)],
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  value ? Icons.pause_circle_outline : Icons.play_circle_filled,
+                  size: 70.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
               ],
             ),
           ),
-        ),
+        )),
       ),
-    );
+    ));
   }
 }

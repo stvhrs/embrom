@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_complete_guide/providers/loading.dart';
+
 
 import 'package:flutter_complete_guide/providers/messages_data.dart';
 import 'package:flutter_complete_guide/route/custom_route.dart';
@@ -52,9 +52,7 @@ Future<void> main() async {
     ChangeNotifierProvider(
       create: (ctx) => Messages2(),
     ),
-    ChangeNotifierProvider(
-      create: (ctx) => Loading(),
-    )
+   
   ], child: MyApp()));
 }
 
@@ -85,15 +83,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          primaryColor: Color.fromRGBO(76, 175, 80, 1),
-          accentColor: Colors.grey,
-          primarySwatch: Colors.green,
-         ),
-      
+        primaryColor: Color.fromRGBO(76, 175, 80, 1),
+        accentColor: Colors.grey,
+        primarySwatch: Colors.green,
+      ),
       title: 'Embrom',
       debugShowCheckedModeBanner: false,
-      home: TabsScreen()
-         ,
+      home: FirebaseAuth.instance.currentUser != null
+          ? TabsScreen()
+          : Introduction(),
       initialRoute: '/',
     );
   }

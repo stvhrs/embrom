@@ -76,13 +76,12 @@ class _DisplayImageState extends State<DisplayImage>
           },
           child: Hero(
             tag: widget.filePath!,
-            child: Container(
-                height: MediaQuery.of(context).size.height * 0.75,
-                width: MediaQuery.of(context).size.width,
-                child: Image.file(
-                  File(widget.filePath!),
-                  fit: BoxFit.fitWidth,
-                )),
+            child: Container(width: double.infinity,
+                          child: Image.file(
+                    File(widget.filePath!),
+                    fit: BoxFit.fitWidth,
+                  ),
+            ),
           ),
         ),
       ),

@@ -62,7 +62,7 @@ class _SearchIndexState extends State<SearchIndex> {
                     });
                   },
                   decoration: InputDecoration(
-                      fillColor: Colors.grey,
+                      fillColor: Colors.white,
                       focusColor: Colors.white,
                       prefixIcon: Icon(Icons.search),
                       hoverColor: Colors.white,
@@ -87,7 +87,7 @@ class _SearchIndexState extends State<SearchIndex> {
               ? FirebaseFirestore.instance
                   .collection('users')
                   .where("id",
-                      isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      isNotEqualTo: FirebaseAuth.instance.currentUser!.uid).limit(15)
                   .snapshots()
               : FirebaseFirestore.instance
                   .collection('users')

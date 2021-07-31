@@ -145,16 +145,16 @@ class Messages2 with ChangeNotifier {
         data["imageUrl"] = await ref.getDownloadURL();
         data["videoUrl"] = await refVideo.getDownloadURL();
       }
-      var myOneSignal = await OneSignal.shared.getDeviceState();
 
       if (hen.length == 1) {
+        var myOneSignal = await OneSignal.shared.getDeviceState();
         var groupChatId;
         User? user = FirebaseAuth.instance.currentUser;
         var peerId = message.idTo;
-        if (user.hashCode <= peerId.hashCode) {
-          groupChatId = '${user!.uid}-$peerId';
+        if (user!.uid.hashCode <= peerId.hashCode) {
+          groupChatId = '${user.uid}-$peerId';
         } else {
-          groupChatId = '$peerId-${user!.uid}';
+          groupChatId = '$peerId-${user.uid}';
         }
         data['groupChatId'] = groupChatId;
         Map<String, dynamic> data2 = {
@@ -220,7 +220,7 @@ class Messages2 with ChangeNotifier {
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({
           'createdAt': DateTime.now(),
-          'oneSignal': myOneSignal!.userId,
+          //  'oneSignal': myOneSignal!.userId,
           'before': before.length,
           'readed': false,
           'lastMessage': message.message,
@@ -233,7 +233,7 @@ class Messages2 with ChangeNotifier {
             .doc(message.idTo!)
             .update({
           'createdAt': DateTime.now(),
-          'oneSignal': person.oneSignal,
+          //   'oneSignal': person.oneSignal,
           'before': before.length,
           'readed': false,
           'lastMessage': message.message,
@@ -341,7 +341,7 @@ class Messages2 with ChangeNotifier {
     };
 
     if (message.isMe == false && message.localTo == true) {
-      print('recived messa');
+      print('recived message');
       loadingReceive = true;
       if (message.messageType == 'image') {
         Directory appDocDir = await getApplicationDocumentsDirectory();

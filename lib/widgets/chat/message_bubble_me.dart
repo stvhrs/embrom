@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_complete_guide/providers/loading.dart';
+
 import 'package:flutter_complete_guide/providers/messages_data.dart';
 import 'package:flutter_complete_guide/screens/display_image.dart';
 import 'package:intl/intl.dart';
@@ -83,7 +83,8 @@ class _MessageBubbleMeState extends State<MessageBubbleMe> {
                                       ? Colors.green
                                       : Colors.grey,
                                 )
-                              : Icon(Icons.av_timer)
+                              : Icon(Icons.av_timer,color: 
+                              Colors.grey,)
                         ],
                       ))
                 ]))));

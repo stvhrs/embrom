@@ -36,8 +36,8 @@ class Person {
   static Map<String, dynamic> toMap(Person person) {
     return {
       'id': person.uid,
-      'nickName': person.nickName,
-      'photoUrl': person.photoUrl,
+      'nickname': person.nickName,
+      'photo': person.photoUrl,
       'groupChatId': person.groupChatId,
       'before': person.before,
       'readed': person.readed,

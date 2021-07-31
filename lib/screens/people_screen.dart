@@ -52,7 +52,10 @@ class _ChatRoomsState extends State<ChatRooms>
                   tempList.add(Person.fromMap(element.data()));
                 });
               }
-
+              if (!snapshot.hasData ||tempList.isEmpty)
+                return Center(
+                  child: Text('Loading',style: TextStyle(color: Colors.white),),
+                );
               return Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -117,12 +120,13 @@ class _ChatRoomsState extends State<ChatRooms>
                   fit: BoxFit.cover,
                 ),
               ),
-              title: Text(d.data()!['nickname']),
+              title: Text(d.data()!['nickname']     ,overflow: TextOverflow.ellipsis,),
               subtitle: person.messageIsMe!
                   ? Row(
                       children: [
                         Icon(
-                          Icons.check_circle_rounded,size: 15,
+                          Icons.check_circle_rounded,
+                          size: 15,
                           color: person.readed! ? Colors.green : Colors.grey,
                         ),
                         Flexible(
@@ -145,15 +149,19 @@ class _ChatRoomsState extends State<ChatRooms>
                         if (d.data()!['before'] != 0)
                           person.readed!
                               ? SizedBox()
-                              : Stack(alignment: Alignment.topCenter,
+                              : Stack(
+                                  alignment: Alignment.topCenter,
                                   children: [
                                     CircleAvatar(
                                       radius: 8,
                                     ),
-                                   Text(
+                                    Text(
                                       d.data()!['before'].toString(),
-                                      style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,
-                                    ) ,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ],
                                 )
                       ],

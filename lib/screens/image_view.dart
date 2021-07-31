@@ -67,9 +67,11 @@ class _ImageViewState extends State<ImageView> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
+        Container(width: double.infinity,
           decoration: BoxDecoration(
-              image: DecorationImage(image: FileImage(File(widget.path!)))),
+              image: DecorationImage(fit: BoxFit.fitWidth,image: FileImage(File(widget.path!)
+              
+              ))),
         ),
         Scaffold(
           floatingActionButtonLocation:

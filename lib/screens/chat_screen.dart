@@ -9,26 +9,37 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
-
   final Person? person;
 
-  ChatScreen([
+  ChatScreen(
     this.person,
-  ]);
+  );
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   FocusNode _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
     print('init chat');
     FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({'chattingWith': widget.person!.uid});
+  }
+
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.detached) {
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'chattingWith': null});
+    }
+    ;
   }
 
   @override
@@ -70,6 +81,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
     if (!widget.person!.messageIsMe!) {
       FirebaseFirestore.instance
           .collection('users')
@@ -100,7 +112,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<bool> willpop(BuildContext contexts) async {
     if (Provider.of<Messages2>(contexts, listen: false).loadingSend == true ||
         Provider.of<Messages2>(contexts, listen: false).loadingReceive ==
-           true) {
+            true) {
       bool asu = await showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -133,7 +145,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('build chat');
     return WillPopScope(
         onWillPop: () async {
           return willpop(context);
@@ -153,7 +164,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: () async {
                       bool pop = await willpop(context);
                       if (pop) Navigator.pop(context);
-                    
                     }),
                 CircleAvatar(
                   backgroundImage: NetworkImage(widget.person!.photoUrl!),
@@ -185,8 +195,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                   FirebaseAuth.instance.currentUser!.uid &&
                               snapshot.data!.docs.last.data()['readed'] ==
                                   false) {
-                            print('incoming message');
-
                             Provider.of<Messages2>(context, listen: false)
                                 .addMessages(
                               snapshot.data!.docs.last.data(),
@@ -195,14 +203,12 @@ class _ChatScreenState extends State<ChatScreen> {
                           }
                         }
 
-                        return StreamBuilder(
+                        return StreamBuilder<DocumentSnapshot?>(
                             stream: FirebaseFirestore.instance
                                 .collection('users')
                                 .doc(widget.person!.uid)
                                 .snapshots(),
-                            builder: (context,
-                                AsyncSnapshot<DocumentSnapshot?> snapshot) {
-                              print('build cchattingwith');
+                            builder: (context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 bool asu = ((snapshot.data!.data() as Map<
                                         String, dynamic>)['chattingWith'] ==
@@ -210,6 +216,20 @@ class _ChatScreenState extends State<ChatScreen> {
 
                                 Provider.of<Messages2>(context, listen: false)
                                     .updateRead(asu);
+                              }
+                              if (snapshot.hasData) if (snapshot.data!
+                                      .data()['oneSignal'] !=
+                                  widget.person!.oneSignal) {
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .collection(
+                                        FirebaseAuth.instance.currentUser!.uid)
+                                    .doc(widget.person!.uid)
+                                    .update({
+                                  'oneSignal':
+                                      snapshot.data!.data()['oneSignal'],
+                                });
                               }
 
                               return Expanded(child: Messages());
