@@ -6,18 +6,9 @@ import 'package:flutter/services.dart';
 
 
 import 'package:flutter_complete_guide/providers/messages_data.dart';
-import 'package:flutter_complete_guide/route/custom_route.dart';
 
-import 'package:flutter_complete_guide/screens/chat_screen.dart';
-import 'package:flutter_complete_guide/screens/display_image.dart';
-import 'package:flutter_complete_guide/screens/image_view.dart';
 import 'package:flutter_complete_guide/screens/introduction_screen.dart';
-import 'package:flutter_complete_guide/screens/people_screen.dart';
 
-import 'package:flutter_complete_guide/screens/video_screen.dart';
-import 'package:flutter_complete_guide/screens/video_view.dart';
-import 'package:flutter_complete_guide/screens/youtube_screen.dart';
-import 'package:flutter_complete_guide/screens/display_video.dart';
 import 'package:flutter_complete_guide/screens/tab_screen.dart';
 import 'package:flutter_complete_guide/providers/youtube_api.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -61,23 +52,9 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    WidgetsBinding.instance!.addObserver(this);
-    super.initState();
-  }
+class _MyAppState extends State<MyApp>  {
 
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    print(state);
-    print(state == AppLifecycleState.inactive);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
-    super.dispose();
-  }
+  
 
   @override
   Widget build(BuildContext context) {

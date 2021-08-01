@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gallery_saver/gallery_saver.dart';
+
 
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth? _auth = FirebaseAuth.instance;
@@ -51,7 +50,7 @@ class AuthProvider with ChangeNotifier {
         'createdAt': Timestamp.now(),
         'chattingWith': null,
         'searchIndex': indexList,
-        'oneSignal': status!.userId
+        'oneSignal': status!.userId,
       });
       var groupChatId;
 
@@ -72,6 +71,7 @@ class AuthProvider with ChangeNotifier {
         'before': 0,
         'lastMessage': 'Hai i am Embrom',
         'readed': false,
+        'senderId':user.uid
       };
 
       await FirebaseFirestore.instance

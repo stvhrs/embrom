@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,17 +74,16 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                                             alignment: Alignment.center,
                                             children: [
                                               Hero(
-                                                tag:
-                                                    widget.message.imagePrefTo!,
-                                                child: FadeInImage(
-                                                  fit: BoxFit.cover,
-                                                  placeholder: AssetImage(
-                                                      'assets/picture.png'),
-                                                  image: NetworkImage(
-                                                    widget.message.imageUrl!,
-                                                  ),
-                                                ),
-                                              ),
+                                                  tag: widget
+                                                      .message.imagePrefTo!,
+                                                  child: BackdropFilter(
+                                                      filter:
+                                                          ImageFilter.blur(),
+                                                      child: Image.network(
+                                                        widget
+                                                            .message.imageUrl!,
+                                                        fit: BoxFit.cover,
+                                                      ))),
                                               CircleAvatar(
                                                 backgroundColor:
                                                     Colors.transparent,

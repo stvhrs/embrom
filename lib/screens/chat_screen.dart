@@ -39,7 +39,6 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({'chattingWith': null});
     }
-    ;
   }
 
   @override
@@ -82,7 +81,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance!.removeObserver(this);
-    if (!widget.person!.messageIsMe!) {
+    if (widget.person!.messageIsMe == false) {
       FirebaseFirestore.instance
           .collection('users')
           .doc(widget.person!.uid!)
@@ -203,33 +202,45 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
                           }
                         }
 
-                        return StreamBuilder<DocumentSnapshot?>(
+                        return StreamBuilder<
+                                DocumentSnapshot<Map<String, dynamic>>?>(
                             stream: FirebaseFirestore.instance
                                 .collection('users')
                                 .doc(widget.person!.uid)
                                 .snapshots(),
-                            builder: (context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                bool asu = ((snapshot.data!.data() as Map<
-                                        String, dynamic>)['chattingWith'] ==
-                                    FirebaseAuth.instance.currentUser!.uid);
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData &&
+                                  snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                bool asu = ((snapshot.data!
+                                        .data()!['chattingWith'] ==
+                                    FirebaseAuth.instance.currentUser!.uid));
 
                                 Provider.of<Messages2>(context, listen: false)
                                     .updateRead(asu);
                               }
-                              if (snapshot.hasData) if (snapshot.data!
-                                      .data()['oneSignal'] !=
-                                  widget.person!.oneSignal) {
-                                FirebaseFirestore.instance
-                                    .collection('users')
-                                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                                    .collection(
-                                        FirebaseAuth.instance.currentUser!.uid)
-                                    .doc(widget.person!.uid)
-                                    .update({
-                                  'oneSignal':
-                                      snapshot.data!.data()['oneSignal'],
-                                });
+                              if (snapshot.hasData &&
+                                  snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                if (snapshot.data!.data()!['nickname'] !=
+                                        Person.toMap(
+                                            widget.person!)['nickname'] ||
+                                    snapshot.data!.data()!['oneSignal'] !=
+                                        Person.toMap(
+                                            widget.person!)['oneSignal'])
+                                  FirebaseFirestore.instance
+                                      .collection('users')
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                      .collection(FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                      .doc(widget.person!.uid)
+                                      .update({
+                                    'oneSignal':
+                                        snapshot.data!.data()!['oneSignal'],
+                                    'nickname':
+                                        snapshot.data!.data()!['nickname'],
+                                  });
                               }
 
                               return Expanded(child: Messages());

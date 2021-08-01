@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +26,6 @@ class BubblePeerVIdeo extends StatefulWidget {
 }
 
 class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
- 
   @override
   Widget build(BuildContext context) {
     print('peervideo');
@@ -40,7 +40,7 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                 elevation: 1,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
-                color:  Color.fromRGBO(76, 175, 80,1),
+                color: Color.fromRGBO(76, 175, 80, 1),
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: Stack(children: [
                   Column(
@@ -48,21 +48,20 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                             var  downloaded= widget.message.localTo!;
-                            var pickedFile= widget.message.localTo!
-                                  ? widget.message.videoUrl!
-                                  : widget.message.videoPrefTo!;
-                            var  thumbnailPath= widget.message.localTo!
-                                  ? widget.message.imageUrl!
-                                  : widget.message.imagePrefTo!;
-                            
+                          var downloaded = widget.message.localTo!;
+                          var pickedFile = widget.message.localTo!
+                              ? widget.message.videoUrl!
+                              : widget.message.videoPrefTo!;
+                          var thumbnailPath = widget.message.localTo!
+                              ? widget.message.imageUrl!
+                              : widget.message.imagePrefTo!;
+
                           Navigator.of(context).push(CustomRoute2(
-                                    builder: (context) =>
-                            DisplayVIdeo(pickedFile,downloaded,thumbnailPath
-                         
-                          )));
+                              builder: (context) => DisplayVIdeo(
+                                  pickedFile, downloaded, thumbnailPath)));
                         },
-                        child: Stack(alignment: Alignment.center,
+                        child: Stack(
+                          alignment: Alignment.center,
                           children: [
                             AspectRatio(
                                 aspectRatio: 5 / 5.5,
@@ -74,28 +73,34 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                                           BorderRadius.all(Radius.circular(8)),
                                       child: Hero(
                                         tag: widget.message.imagePrefTo!,
-                                        child: widget.message.localTo== false
+                                        child: widget.message.localTo == false
                                             ? Image.file(
                                                 File(widget
                                                     .message.imagePrefTo!),
                                                 fit: BoxFit.cover,
                                               )
-                                            : Image.network(
-                                                widget.message.imageUrl!,  fit: BoxFit.cover,),
+                                            : BackdropFilter(
+                                                filter: ImageFilter.blur(),
+                                                child: Image.network(
+                                                  widget.message.imageUrl!,
+                                                  fit: BoxFit.cover,
+                                                )),
                                       )),
-                                )),Positioned.fill(
-                                    child:Icon(Icons.play_arrow,color: Colors.white,)),
+                                )),
+                            Positioned.fill(
+                                child: Icon(
+                              Icons.play_arrow,
+                              color: Colors.white,
+                            )),
                             widget.message.localTo == false
                                 ? SizedBox()
-                                : 
-                                         CircleAvatar(
-                                            backgroundColor: Colors.transparent,
-                                            child: CircularProgressIndicator(
-                                              backgroundColor: Colors.green,
-                                              color: Colors.white,
-                                            ),
-                                          )
-                                       
+                                : CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    child: CircularProgressIndicator(
+                                      backgroundColor: Colors.green,
+                                      color: Colors.white,
+                                    ),
+                                  )
                           ],
                         ),
                       ),
@@ -110,7 +115,10 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                         child: SelectableText(
                           widget.message.message.toString(),
                           textAlign: TextAlign.left,
-                          style: TextStyle(fontSize: 16, color:Colors.white,),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
@@ -130,8 +138,6 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                           SizedBox(
                             width: 5,
                           ),
-                         
-                                      
                         ],
                       ))
                 ]))));

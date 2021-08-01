@@ -12,11 +12,59 @@ class DisplayVIdeo extends StatefulWidget {
   _DisplayVIdeoState createState() => _DisplayVIdeoState();
 }
 
-class _DisplayVIdeoState extends State<DisplayVIdeo> {
+class _DisplayVIdeoState extends State<DisplayVIdeo>
+    with SingleTickerProviderStateMixin {
   VideoPlayerController? _controller;
+
+  final TransformationController _transformationController =
+      TransformationController();
+
+  Animation<Matrix4>? _animationReset;
+
+  late final AnimationController _controllerReset;
+
+  void _onAnimateReset() {
+    _transformationController.value = _animationReset!.value;
+    if (!_controllerReset.isAnimating) {
+      _animationReset!.removeListener(_onAnimateReset);
+      _animationReset = null;
+      _controllerReset.reset();
+    }
+  }
+
+  void _animateResetInitialize() {
+    _controllerReset.reset();
+    _animationReset = Matrix4Tween(
+      begin: _transformationController.value,
+      end: Matrix4.identity(),
+    ).animate(_controllerReset);
+    _animationReset!.addListener(_onAnimateReset);
+    _controllerReset.forward();
+  }
+
+// Stop a running reset to home transform animation.
+  void _animateResetStop() {
+    _controllerReset.stop();
+    _animationReset?.removeListener(_onAnimateReset);
+    _animationReset = null;
+    _controllerReset.reset();
+  }
+
+  void _onInteractionStart(ScaleStartDetails details) {
+    // If the user tries to cause a transformation while the reset animation is
+    // running, cancel the reset animation.
+    if (_controllerReset.status == AnimationStatus.forward) {
+      _animateResetStop();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _controllerReset = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
     init();
   }
 
@@ -111,49 +159,61 @@ class _DisplayVIdeoState extends State<DisplayVIdeo> {
             onTap: () {
               playButtonCallback();
             },
-            child: Hero(
-                tag: widget.pickedFile!,
-                child: Center(
-                  child: _controller!.value.isInitialized
-                      ? Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(width: double.infinity,
-                              child: AspectRatio(
-                                aspectRatio: _controller!.value.aspectRatio,
-                                child: VideoPlayer(_controller!),
-                              ),
-                            ),
-                            AnimatedOpacity(
-                              duration: Duration(milliseconds: 300),
-                              opacity: value ? 0.0 : 1.0,
-                              child: GestureDetector(
-                                onTap: playButtonCallback,
-                                child: DecoratedBox(
-                                  decoration: const BoxDecoration(
-                                    boxShadow: <BoxShadow>[
-                                      BoxShadow(color: Colors.black12)
-                                    ],
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Icon(
-                                    value
-                                        ? Icons.pause_circle_outline
-                                        : Icons.play_circle_filled,
-                                    size: 70.0,
-                                    color: Colors.white,
+            child: InteractiveViewer(
+                transformationController: _transformationController,
+                onInteractionEnd: (d) {
+                  _animateResetInitialize();
+                },
+                child: Hero(
+                    tag: widget.pickedFile!,
+                    child: Center(
+                      child: _controller!.value.isInitialized
+                          ? Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  child: AspectRatio(
+                                    aspectRatio: _controller!.value.aspectRatio,
+                                    child: VideoPlayer(_controller!),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : widget.downloaded!
-                          ? Container(width: double.infinity,
-                          child:Image.network(widget.thumbnailPath!,fit: BoxFit.fitWidth,))
-                          : Container(width: double.infinity,
-                          child:Image.file(File(widget.thumbnailPath!),fit: BoxFit.fitWidth)),
-                )),
+                                AnimatedOpacity(
+                                  duration: Duration(milliseconds: 300),
+                                  opacity: value ? 0.0 : 1.0,
+                                  child: GestureDetector(
+                                    onTap: playButtonCallback,
+                                    child: DecoratedBox(
+                                      decoration: const BoxDecoration(
+                                        boxShadow: <BoxShadow>[
+                                          BoxShadow(color: Colors.black12)
+                                        ],
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        value
+                                            ? Icons.pause_circle_outline
+                                            : Icons.play_circle_filled,
+                                        size: 70.0,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : widget.downloaded!
+                              ? Container(
+                                  width: double.infinity,
+                                  child: Image.network(
+                                    widget.thumbnailPath!,
+                                    fit: BoxFit.fitWidth,
+                                  ))
+                              : Container(
+                                  width: double.infinity,
+                                  child: Image.file(File(widget.thumbnailPath!),
+                                      fit: BoxFit.fitWidth)),
+                    ))),
           ),
         ));
   }

@@ -6,7 +6,7 @@ import 'package:flutter_complete_guide/widgets/youtube_widget/volume_slider.dart
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../widgets/youtube_widget/player_state_section.dart';
-import '../widgets/youtube_widget/metadata_section.dart';
+
 import '../widgets/youtube_widget/play_pause_button_bar.dart';
 
 class YoutubeAppDemo extends StatefulWidget {
@@ -27,7 +27,7 @@ class YoutubeAppDemo extends StatefulWidget {
 }
 
 class _YoutubeAppDemoState extends State<YoutubeAppDemo> {
-  late final YoutubePlayerController _controller;
+  late  YoutubePlayerController _controller;
   bool latee = true;
   Future<void> waiting() async {
     await Future.delayed(Duration(seconds: 1), () {
@@ -96,7 +96,7 @@ class _YoutubeAppDemoState extends State<YoutubeAppDemo> {
                     Container(
                         child: YoutubePlayerIFrame(controller: _controller),
                         decoration: BoxDecoration(
-                            color: Colors.red,
+                            color: Colors.transparent,
                             image: DecorationImage(
                               image: NetworkImage(widget.image!),
                               fit: BoxFit.cover,

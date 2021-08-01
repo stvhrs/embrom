@@ -128,7 +128,7 @@ class Messages2 with ChangeNotifier {
         //Video
         File _pickedFilePathVideo = File(message.videoPrefFrom!);
 
-        File downloadToFileVideo = await _pickedFilePathVideo;
+        File downloadToFileVideo = _pickedFilePathVideo;
         // .copy('${appDocDir.path}/${data['timestamp']}.mp4');
 
         final refVideo = FirebaseStorage.instance
@@ -241,8 +241,9 @@ class Messages2 with ChangeNotifier {
         });
       }
       var notification = Message.fromMap(data);
-      await sendNotification(notification, person);
+      sendNotification(notification, person);
       loadingSend = false;
+      notifyListeners();
     }
     before.clear();
   }
@@ -406,5 +407,6 @@ class Messages2 with ChangeNotifier {
     }
 
     loadingReceive = false;
+    notifyListeners();
   }
 }

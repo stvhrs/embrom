@@ -11,25 +11,20 @@ import 'package:flutter_complete_guide/providers/messages_data.dart';
 import 'package:flutter_complete_guide/screens/image_view.dart';
 import 'package:flutter_complete_guide/screens/video_view.dart';
 
-import 'package:keyboard_service/keyboard_service.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-
 class NewMessage extends StatefulWidget {
   final Person? person;
-final  FocusNode? _focusNode ;
-  NewMessage(
-    this.person,this._focusNode
-  );
+  final FocusNode? _focusNode;
+  NewMessage(this.person, this._focusNode);
   @override
   _NewMessageState createState() => _NewMessageState();
 }
 
 class _NewMessageState extends State<NewMessage> {
   var _enterMessage = '';
-  
+
   // @override
   // void initState() {
   //   super.initState();
@@ -46,36 +41,30 @@ class _NewMessageState extends State<NewMessage> {
   bool _waiting = false;
 
   void _pickedFile() async {
-    if (await Permission.accessMediaLocation.request().isGranted) {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['jpg', 'mp4', 'png'],
-      );
-      if (result != null) {
-        if (result.files.single.path!.contains('.mp4')) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => VideoView(
-                      person: widget.person,
-                      path: result.files.single.path!,
-                      pop: true)));
-        } else {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ImageView(
-                      person: widget.person,
-                      path: result.files.single.path!,
-                      pop: true)));
-        }
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'mp4', 'png'],
+    );
+    if (result != null) {
+      if (result.files.single.path!.contains('.mp4')) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => VideoView(
+                    person: widget.person,
+                    path: result.files.single.path!,
+                    pop: true)));
       } else {
-        print('cancle');
-        return;
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ImageView(
+                    person: widget.person,
+                    path: result.files.single.path!,
+                    pop: true)));
       }
     } else {
-      await Permission.accessMediaLocation.request();
-      _pickedFile();
+      return;
     }
   }
 
@@ -152,7 +141,6 @@ class _NewMessageState extends State<NewMessage> {
 
   @override
   Widget build(BuildContext context) {
-   
     return Container(
       constraints: BoxConstraints(maxHeight: 170),
       margin: EdgeInsets.only(top: 8),
@@ -165,7 +153,7 @@ class _NewMessageState extends State<NewMessage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               child: TextFormField(
-                focusNode:widget. _focusNode,
+                focusNode: widget._focusNode,
                 onTap: () {},
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
@@ -187,7 +175,7 @@ class _NewMessageState extends State<NewMessage> {
                 onChanged: (val) {
                   setState(() {
                     _enterMessage = val;
-                //    print(KeyboardService.isVisible(context));
+                    //    print(KeyboardService.isVisible(context));
                   });
                 },
               ),

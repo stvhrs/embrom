@@ -22,16 +22,22 @@ class Person {
       this.groupChatId,
       this.oneSignal});
   factory Person.fromMap(Map<String, dynamic> map) {
+   var whichId = '';
+    if (map['senderId'] != null || map['senderId'] != '') {
+      whichId = map['senderId']??FirebaseAuth.instance.currentUser!.uid;
+    } else {
+      whichId = map['id'];
+    }
     return Person(
         uid: map['id'],
         nickName: map['nickname'],
         photoUrl: map['photo'],
         groupChatId: map['groupChatId'],
-        before: map['before'],
-        readed: map['readed'],
+        before: map['before'] ?? 0,
+        readed: map['readed'] ?? true,
         lastMessage: map['lastMessage'],
-        messageIsMe: map['senderId'] == FirebaseAuth.instance.currentUser!.uid,
-        oneSignal: map['oneSignal']);
+        messageIsMe: whichId == FirebaseAuth.instance.currentUser!.uid,
+        oneSignal: map['oneSignal'] ?? '');
   }
   static Map<String, dynamic> toMap(Person person) {
     return {

@@ -15,7 +15,7 @@ class SearchIndex extends StatefulWidget {
 
 class _SearchIndexState extends State<SearchIndex> {
   TextEditingController? _addNameController;
-  String? searchString='';
+  String? searchString = '';
   var focusNode = FocusNode();
   @override
   void initState() {
@@ -87,7 +87,8 @@ class _SearchIndexState extends State<SearchIndex> {
               ? FirebaseFirestore.instance
                   .collection('users')
                   .where("id",
-                      isNotEqualTo: FirebaseAuth.instance.currentUser!.uid).limit(15)
+                      isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                  .limit(15)
                   .snapshots()
               : FirebaseFirestore.instance
                   .collection('users')
@@ -96,12 +97,10 @@ class _SearchIndexState extends State<SearchIndex> {
                   .where("searchIndex", arrayContains: searchString!)
                   .snapshots(),
           builder: (context, snapshot) {
-            if (
-                snapshot.connectionState == ConnectionState.waiting) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return Row(
                 children: [
                   Spacer(),
-                  
                   Text(
                     'Searching $searchString...',
                     style: TextStyle(
@@ -112,7 +111,7 @@ class _SearchIndexState extends State<SearchIndex> {
                 ],
               );
             }
-            if (!snapshot.hasData||snapshot.data!.docs.isEmpty) {
+            if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
               return Center(
                 child: Text(
                   'No result',
@@ -124,64 +123,70 @@ class _SearchIndexState extends State<SearchIndex> {
             }
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
-              itemBuilder: (context, index) => snapshot.data!.docs[index].data()['id']!=FirebaseAuth.instance.currentUser!.uid? Column(
-                children: [
-                  InkWell(
-                    onTap: () async {
-                      Person person =
-                          Person.fromMap(snapshot.data!.docs[index].data());
+              itemBuilder: (context, index) => snapshot.data!.docs[index]
+                          .data()['id'] !=
+                      FirebaseAuth.instance.currentUser!.uid
+                  ? Column(
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            Person person = Person.fromMap(
+                                snapshot.data!.docs[index].data());
 
-                      var groupChatId;
-                      String myUid = FirebaseAuth.instance.currentUser!.uid;
-                      var peerId = snapshot.data!.docs[index]['id'];
-                      if (myUid.hashCode <= peerId.hashCode) {
-                        groupChatId = '$myUid-$peerId';
-                      } else {
-                        groupChatId = '$peerId-$myUid';
-                      }
-                      person.groupChatId = groupChatId;
-                     QuerySnapshot<Map<String, dynamic>> asu = await FirebaseFirestore
-                  .instance
-                  .collection('messages')
-                  .doc(person.groupChatId)
-                  .collection(person.groupChatId!)
-                  .get();
-              if (asu.docs.isEmpty || asu.docs.length == 0) {
-                Provider.of<Messages2>(context, listen: false)
-                    .fetchMessages(asu);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatScreen(person),
-                    ));
-              } else {
-                Provider.of<Messages2>(context, listen: false)
-                    .fetchMessages(asu);
+                            var groupChatId;
+                            String myUid =
+                                FirebaseAuth.instance.currentUser!.uid;
+                            var peerId = snapshot.data!.docs[index]['id'];
+                            if (myUid.hashCode <= peerId.hashCode) {
+                              groupChatId = '$myUid-$peerId';
+                            } else {
+                              groupChatId = '$peerId-$myUid';
+                            }
 
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatScreen(person),
-                    ));
-              }
-                    },
-                    child: ListTile(
-                      title: Text(
-                        snapshot.data!.docs[index]['nickname'],
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      leading: CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        backgroundImage:
-                            NetworkImage(snapshot.data!.docs[index]['photo']),
-                      ),
-                    ),
-                  ),
-                  Divider(
-                    color: Colors.white,
-                  )
-                ],
-              ):SizedBox(),
+                            person.groupChatId = groupChatId;
+                            QuerySnapshot<Map<String, dynamic>> asu =
+                                await FirebaseFirestore.instance
+                                    .collection('messages')
+                                    .doc(person.groupChatId)
+                                    .collection(person.groupChatId!)
+                                    .get();
+                            if (asu.docs.isEmpty || asu.docs.length == 0) {
+                              Provider.of<Messages2>(context, listen: false)
+                                  .fetchMessages(asu);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatScreen(person),
+                                  ));
+                            } else {
+                              Provider.of<Messages2>(context, listen: false)
+                                  .fetchMessages(asu);
+
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChatScreen(person),
+                                  ));
+                            }
+                          },
+                          child: ListTile(
+                            title: Text(
+                              snapshot.data!.docs[index]['nickname'],
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.grey,
+                              backgroundImage: NetworkImage(
+                                  snapshot.data!.docs[index]['photo']),
+                            ),
+                          ),
+                        ),
+                        Divider(
+                          color: Colors.white,
+                        )
+                      ],
+                    )
+                  : SizedBox(),
             );
           },
         ),

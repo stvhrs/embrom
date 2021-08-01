@@ -89,6 +89,8 @@ class _ChatRoomsState extends State<ChatRooms>
                   .collection(person.groupChatId!)
                   .get();
               if (asu.docs.isEmpty || asu.docs.length == 0) {
+                 Provider.of<Messages2>(context, listen: false)
+                    .fetchMessages(asu);
                 Navigator.push(
                     context,
                     CustomRoute(
@@ -168,6 +170,6 @@ class _ChatRoomsState extends State<ChatRooms>
                     ),
               key: ValueKey(i),
             )));
-    ;
+    
   }
 }
