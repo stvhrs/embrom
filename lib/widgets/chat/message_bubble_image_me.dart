@@ -56,22 +56,20 @@ class _BubbleMeImageState extends State<BubbleMeImage> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            AspectRatio(
-                                aspectRatio: 5 / 5.5,
-                                child: Container(
+                          Container(
                                   margin: EdgeInsets.only(
                                       top: 5, left: 5, right: 5),
                                   child: ClipRRect(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(8)),
                                       child: Hero(
-                                        tag: widget.message.imagePrefFrom!,
+                                        tag: widget.message.timestamp.toString(),
                                         child: Image.file(
                                           File(widget.message.imagePrefFrom!),
                                           fit: BoxFit.cover
                                         ),
                                       )),
-                                )),
+                                ),
                             widget.message.localFrom == false
                                 ? SizedBox()
                                 : CircleAvatar(

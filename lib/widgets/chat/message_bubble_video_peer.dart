@@ -1,21 +1,14 @@
 import 'dart:io';
-import 'dart:math';
+
 import 'dart:ui';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
-import 'package:flutter_complete_guide/providers/messages_data.dart';
 import 'package:flutter_complete_guide/route/custom_route.dart';
-import 'package:flutter_complete_guide/screens/display_image.dart';
+
 import 'package:flutter_complete_guide/screens/display_video.dart';
-import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/models/message_model.dart';
-import 'package:gallery_saver/gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
+
 
 class BubblePeerVIdeo extends StatefulWidget {
   BubblePeerVIdeo({required this.message});
@@ -63,16 +56,14 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            AspectRatio(
-                                aspectRatio: 5 / 5.5,
-                                child: Container(
+                            Container(
                                   margin: EdgeInsets.only(
                                       top: 5, left: 5, right: 5),
                                   child: ClipRRect(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(8)),
                                       child: Hero(
-                                        tag: widget.message.imagePrefTo!,
+                                        tag: widget.message.timestamp.toString(),
                                         child: widget.message.localTo == false
                                             ? Image.file(
                                                 File(widget
@@ -102,7 +93,7 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                                                 ),
                                               ),
                                       )),
-                                )),
+                                ),
                             Positioned.fill(
                                 child: Icon(
                               Icons.play_arrow,

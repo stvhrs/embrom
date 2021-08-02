@@ -53,9 +53,7 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                                         widget.message.imagePrefTo!,widget.message.timestamp.toString()),
                                   ));
                                 },
-                          child: AspectRatio(
-                            aspectRatio: 5 / 5.5,
-                            child: Container(
+                          child: Container(
                                 margin:
                                     EdgeInsets.only(top: 5, left: 5, right: 5),
                                 child: ClipRRect(
@@ -63,7 +61,7 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                                         BorderRadius.all(Radius.circular(8)),
                                     child: widget.message.localTo! == false
                                         ? Hero(
-                                            tag: widget.message.imagePrefTo!,
+                                            tag: widget.message.timestamp.toString(),
                                             child: Image.file(
                                               File(widget.message.imagePrefTo!),
                                               fit: BoxFit.cover,
@@ -71,10 +69,10 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                                           )
                                         : Stack(
                                             alignment: Alignment.center,
-                                            children: [
+                                            children: [Image.asset('assets/picture.png'),
                                               Hero(
                                                 tag:
-                                                    widget.message.imagePrefTo!,
+                                                    widget.message.timestamp.toString(),
                                                 child: Image.network(
                                                   widget.message.imageUrl!,
                                                   fit: BoxFit.cover,
@@ -92,7 +90,7 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                                             ],
                                           ))),
                           ),
-                        ),
+                        
                         Container(
                           margin: EdgeInsets.only(bottom: 10),
                           padding: EdgeInsets.only(

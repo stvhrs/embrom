@@ -1,20 +1,11 @@
 import 'dart:io';
-import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
-import 'package:flutter_complete_guide/providers/messages_data.dart';
 import 'package:flutter_complete_guide/route/custom_route.dart';
-import 'package:flutter_complete_guide/screens/display_image.dart';
+
 import 'package:flutter_complete_guide/screens/display_video.dart';
-import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/models/message_model.dart';
-import 'package:gallery_saver/gallery_saver.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 
 class BubbleMeVideo extends StatefulWidget {
   BubbleMeVideo({required this.message});
@@ -57,9 +48,7 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                         },
                         child: Stack(
                           children: [
-                            AspectRatio(
-                                aspectRatio: 5 / 5.5,
-                                child: Container(
+                            Container(
                                   margin: EdgeInsets.only(
                                       top: 5, left: 5, right: 5),
                                   child: ClipRRect(
@@ -72,7 +61,7 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                                           fit: BoxFit.cover,
                                         ),
                                       )),
-                                )),Positioned.fill(
+                                ),Positioned.fill(
                                     child:Icon(Icons.play_arrow,color: Colors.white,)),
                             widget.message.localFrom == false
                                 ? SizedBox()
