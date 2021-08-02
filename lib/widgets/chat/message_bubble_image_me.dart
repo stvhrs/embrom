@@ -50,8 +50,8 @@ class _BubbleMeImageState extends State<BubbleMeImage> {
                         onTap: () {
                           Navigator.of(context).push(CustomRoute2(
                                     builder: (context) =>
-                                DisplayImage(widget.message.imagePrefFrom!),
-                          ));
+                                DisplayImage(widget.message.imagePrefFrom!,widget.message.timestamp.toString(),
+                          )));
                         },
                         child: Stack(
                           alignment: Alignment.center,

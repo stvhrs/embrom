@@ -6,8 +6,8 @@ class DisplayVIdeo extends StatefulWidget {
   final String? pickedFile;
   final bool? downloaded;
   final String? thumbnailPath;
-
-  DisplayVIdeo([this.pickedFile, this.downloaded, this.thumbnailPath]);
+final String id;
+  DisplayVIdeo(this.pickedFile, this.downloaded, this.thumbnailPath,this.id);
   @override
   _DisplayVIdeoState createState() => _DisplayVIdeoState();
 }
@@ -165,7 +165,7 @@ class _DisplayVIdeoState extends State<DisplayVIdeo>
                   _animateResetInitialize();
                 },
                 child: Hero(
-                    tag: widget.pickedFile!,
+                    tag:widget.id,
                     child: Center(
                       child: _controller!.value.isInitialized
                           ? Stack(

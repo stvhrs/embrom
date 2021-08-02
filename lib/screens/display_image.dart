@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class DisplayImage extends StatefulWidget {
- 
   final String? filePath;
-  DisplayImage([this.filePath]);
+  final String id;
+  DisplayImage(this.filePath,this.id);
 
   @override
   _DisplayImageState createState() => _DisplayImageState();
@@ -65,22 +65,25 @@ class _DisplayImageState extends State<DisplayImage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.black, appBar: AppBar(
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
           backgroundColor: Colors.black,
           iconTheme: IconThemeData(color: Colors.white)),
-         body: Center(
+      body: Center(
         child: InteractiveViewer(
           transformationController: _transformationController,
           onInteractionEnd: (d) {
             _animateResetInitialize();
           },
           child: Hero(
-            tag: widget.filePath!,
-            child: Container(width: double.infinity,
-                          child: Image.file(
-                    File(widget.filePath!),
-                    fit: BoxFit.fitWidth,
-                  ),
+            tag: widget.id,
+            child: Container(
+              width: double.infinity,
+              child: Image.file(
+                File(widget.filePath!),
+                fit: BoxFit.fitWidth,
+              ),
             ),
           ),
         ),

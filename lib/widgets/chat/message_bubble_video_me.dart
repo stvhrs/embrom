@@ -51,7 +51,7 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                           Navigator.of(context).push(CustomRoute2(
                                     builder: (context) => DisplayVIdeo(                          
                             widget.message.videoPrefFrom!,  false,
-                              widget.message.imagePrefFrom!,
+                              widget.message.imagePrefFrom!,widget.message.timestamp.toString()
                             ),
                           ));
                         },
@@ -66,7 +66,7 @@ class _BubbleMeVideoState extends State<BubbleMeVideo> {
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(8)),
                                       child: Hero(
-                                        tag: widget.message.imagePrefFrom!,
+                                        tag: widget.message.timestamp.toString(),
                                         child: Image.file(
                                           File(widget.message.imagePrefFrom!),
                                           fit: BoxFit.cover,

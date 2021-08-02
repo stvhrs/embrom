@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth? _auth = FirebaseAuth.instance;
@@ -16,7 +13,6 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signInWithGoogle() async {
     try {
-    
       final GoogleSignInAccount? googleSignInAccount =
           await (googleSignIn?.signIn());
 
@@ -69,9 +65,9 @@ class AuthProvider with ChangeNotifier {
             'https://lh3.googleusercontent.com/a-/AOh14GjOrDoBKgqPp80UM5t5__HXZxlyN-AK269Br8sh=s96-c',
         'oneSignal': '9d70b8b8-dab0-4df4-ae7c-110a4631f9c9',
         'before': 0,
-        'lastMessage': 'Hai i am Embrom',
+        'lastMessage': 'Hai, I am Embrom',
         'readed': false,
-        'senderId':user.uid
+        'senderId': 'KSgTOKF4kifJqsfIfNuUvnY2JrJ2'
       };
 
       await FirebaseFirestore.instance
@@ -80,10 +76,8 @@ class AuthProvider with ChangeNotifier {
           .collection(user.uid)
           .doc(peerId)
           .set(data2);
-      return ;
-    } catch (err) {
-      
-    }
+      return;
+    } catch (err) {}
   }
 
   Future<void> clearPrefs() async {

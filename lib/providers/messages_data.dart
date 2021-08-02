@@ -211,6 +211,8 @@ class Messages2 with ChangeNotifier {
             .set(data)
             .then((value) {
           updateStatus(data);
+          loadingSend = false;
+          notifyListeners();
         });
 
         await FirebaseFirestore.instance
@@ -242,8 +244,6 @@ class Messages2 with ChangeNotifier {
       }
       var notification = Message.fromMap(data);
       sendNotification(notification, person);
-      loadingSend = false;
-      notifyListeners();
     }
     before.clear();
   }
@@ -355,10 +355,8 @@ class Messages2 with ChangeNotifier {
         File downloadToFile =
             File('${appDocDir.path}/${message.timestamp}.jpg');
         await ref.writeToFile(downloadToFile);
-        await GallerySaver.saveImage(downloadToFile.path, albumName: 'Embrom2')
-            .then((value) {
-          print(value.toString());
-        });
+        await GallerySaver.saveImage(downloadToFile.path, albumName: 'Embrom');
+
         data['imagePrefTo'] = downloadToFile.path;
       }
 
@@ -386,7 +384,7 @@ class Messages2 with ChangeNotifier {
             File('${appDocDir.path}/${message.timestamp}.mp4');
         await refVideo.writeToFile(downloadToFileVideo);
         await GallerySaver.saveVideo(downloadToFileVideo.path,
-            albumName: 'Embrom2');
+            albumName: 'Embrom');
         data['videoPrefTo'] = downloadToFileVideo.path;
       }
 
@@ -403,10 +401,9 @@ class Messages2 with ChangeNotifier {
         },
       ).then((_) {
         updateStatus(data);
+        loadingReceive = false;
+        notifyListeners();
       });
     }
-
-    loadingReceive = false;
-    notifyListeners();
   }
 }

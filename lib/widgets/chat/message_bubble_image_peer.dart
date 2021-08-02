@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,7 +50,7 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                               : () {
                                   Navigator.of(context).push(CustomRoute2(
                                     builder: (context) => DisplayImage(
-                                        widget.message.imagePrefTo!),
+                                        widget.message.imagePrefTo!,widget.message.timestamp.toString()),
                                   ));
                                 },
                           child: AspectRatio(
@@ -74,16 +73,13 @@ class _BubblePeerImageState extends State<BubblePeerImage> {
                                             alignment: Alignment.center,
                                             children: [
                                               Hero(
-                                                  tag: widget
-                                                      .message.imagePrefTo!,
-                                                  child: BackdropFilter(
-                                                      filter:
-                                                          ImageFilter.blur(),
-                                                      child: Image.network(
-                                                        widget
-                                                            .message.imageUrl!,
-                                                        fit: BoxFit.cover,
-                                                      ))),
+                                                tag:
+                                                    widget.message.imagePrefTo!,
+                                                child: Image.network(
+                                                  widget.message.imageUrl!,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
                                               CircleAvatar(
                                                 backgroundColor:
                                                     Colors.transparent,

@@ -58,7 +58,7 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
 
                           Navigator.of(context).push(CustomRoute2(
                               builder: (context) => DisplayVIdeo(
-                                  pickedFile, downloaded, thumbnailPath)));
+                                  pickedFile, downloaded, thumbnailPath,widget.message.timestamp.toString())));
                         },
                         child: Stack(
                           alignment: Alignment.center,
@@ -79,12 +79,28 @@ class _BubblePeerVIdeoState extends State<BubblePeerVIdeo> {
                                                     .message.imagePrefTo!),
                                                 fit: BoxFit.cover,
                                               )
-                                            : BackdropFilter(
-                                                filter: ImageFilter.blur(),
-                                                child: Image.network(
-                                                  widget.message.imageUrl!,
-                                                  fit: BoxFit.cover,
-                                                )),
+                                            : FittedBox(
+                                                fit: BoxFit.cover,
+                                                child: Stack(
+                                                  children: [
+                                                    Image.network(
+                                                      widget.message.imageUrl!,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    Positioned.fill(
+                                                      child: BackdropFilter(
+                                                          filter:
+                                                              ImageFilter.blur(
+                                                                  sigmaX: 10,
+                                                                  sigmaY: 10),
+                                                          child: Container(
+                                                            color: Colors.black
+                                                                .withOpacity(0),
+                                                          )),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                       )),
                                 )),
                             Positioned.fill(
