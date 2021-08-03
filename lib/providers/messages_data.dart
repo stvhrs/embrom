@@ -15,8 +15,9 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Messages2 with ChangeNotifier {
+  bool? readAll ;
   List<Map<String, dynamic>> hen = [];
-  bool? readAll;
+
   bool loadingSend = false;
   bool loadingReceive = false;
   fetchMessages(QuerySnapshot<Map<String, dynamic>> messages) {
@@ -160,13 +161,14 @@ class Messages2 with ChangeNotifier {
         Map<String, dynamic> data2 = {
           'id': person.uid,
           'nickname': person.nickName,
+          'senderId': user.uid,
           'groupChatId': groupChatId,
           'createdAt': DateTime.now(),
           'photo': person.photoUrl,
           'oneSignal': person.oneSignal,
           'before': before.length,
           'lastMessage': message.message,
-          'readed': message.readed,
+          'readed': false
         };
 
         await FirebaseFirestore.instance
@@ -190,7 +192,8 @@ class Messages2 with ChangeNotifier {
           'oneSignal': myOneSignal!.userId,
           'before': before.length,
           'lastMessage': message.message,
-          'readed': message.readed,
+          'readed': false,
+          'senderId': user.uid,
         });
 
         await FirebaseFirestore.instance
@@ -254,12 +257,15 @@ class Messages2 with ChangeNotifier {
 
     print('add message');
     if (hen.every((element) => element['timestamp'] != temp.timestamp)) {
+      print(readAll);
       if (readAll == true) {
+        print('readAlltrue');
         message['readed'] = true;
       }
       //    log(temp.docId!);
       hen.insert(0, message);
       if (notif!) notifyListeners();
+
       if (message['localFrom'] == true) await send(temp, person!);
 
       if (!temp.isMe! && message['localTo'] == true) await receviced(temp);
@@ -269,12 +275,18 @@ class Messages2 with ChangeNotifier {
   }
 
   updateRead(bool id) {
+    print('update Read');
     if (id) {
       readAll = true;
       hen.every((element) => element['readed'] = true);
-    } else {
-      readAll = false;
+      // notifyListeners();
     }
+  }
+
+  updateUnRead(bool id) {
+    print('unread');
+if(!id)
+    readAll = false;
   }
 
   Future<Response> sendNotification(

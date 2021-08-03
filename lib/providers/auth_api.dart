@@ -63,7 +63,7 @@ class AuthProvider with ChangeNotifier {
         'createdAt': DateTime.now(),
         'photo':
             'https://lh3.googleusercontent.com/a-/AOh14GjOrDoBKgqPp80UM5t5__HXZxlyN-AK269Br8sh=s96-c',
-        'oneSignal': '9d70b8b8-dab0-4df4-ae7c-110a4631f9c9',
+        'oneSignal': '1c55ccb4-ffe0-459c-a0fc-c4eb834f8e23',
         'before': 0,
         'lastMessage': 'Hai, I am Embrom',
         'readed': false,

@@ -3,12 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-
 import 'package:flutter_complete_guide/providers/messages_data.dart';
-
 import 'package:flutter_complete_guide/screens/introduction_screen.dart';
-
 import 'package:flutter_complete_guide/screens/tab_screen.dart';
 import 'package:flutter_complete_guide/providers/youtube_api.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';

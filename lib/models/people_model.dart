@@ -41,9 +41,9 @@ class Person {
   }
   static Map<String, dynamic> toMap(Person person) {
     return {
-      'id': person.uid,
-      'nickname': person.nickName,
-      'photo': person.photoUrl,
+      'id':FirebaseAuth.instance.currentUser!.uid,
+      'nickname': FirebaseAuth.instance.currentUser!.displayName,
+      'photo':FirebaseAuth.instance.currentUser!.photoURL,
       'groupChatId': person.groupChatId,
       'before': person.before,
       'readed': person.readed,

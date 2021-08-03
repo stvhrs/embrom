@@ -50,13 +50,7 @@ class _TabsScreenState extends State<TabsScreen>
           ));
     });
 
-    OneSignal.shared.setNotificationWillShowInForegroundHandler(
-        (OSNotificationReceivedEvent event) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(event.notification.title.toString() +
-              ' : ' +
-              event.notification.subtitle!)));
-    });
+ 
   }
 
   @override

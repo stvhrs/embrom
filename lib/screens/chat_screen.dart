@@ -18,12 +18,12 @@ class ChatScreen extends StatefulWidget {
   _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
+class _ChatScreenState extends State<ChatScreen>  {
   FocusNode _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+   
     print('init chat');
     FirebaseFirestore.instance
         .collection('users')
@@ -31,15 +31,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
         .update({'chattingWith': widget.person!.uid});
   }
 
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive ||
-        state == AppLifecycleState.detached) {
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({'chattingWith': null});
-    }
-  }
+  
 
   @override
   void didChangeDependencies() async {
@@ -80,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+   
     if (widget.person!.messageIsMe == false) {
       FirebaseFirestore.instance
           .collection('users')
@@ -149,108 +141,107 @@ class _ChatScreenState extends State<ChatScreen> with WidgetsBindingObserver {
           return willpop(context);
         },
         child: Scaffold(
-          backgroundColor: Colors.grey.shade900,
-          resizeToAvoidBottomInset: true,
-          appBar: AppBar(
-            backgroundColor: Colors.grey.shade800,
-            automaticallyImplyLeading: false,
-            leadingWidth: 100,
-            centerTitle: false,
-            leading: Row(
-              children: [
-                IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () async {
-                      bool pop = await willpop(context);
-                      if (pop) Navigator.pop(context);
-                    }),
-                CircleAvatar(
-                  backgroundImage: NetworkImage(widget.person!.photoUrl!),
-                ),
-              ],
-            ),
-            title: Text(widget.person!.nickName!),
-          ),
-          body: Container(
-            child: GestureDetector(
-              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-              child: Column(
-                children: <Widget>[
-                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                      stream: Provider.of<Messages2>(context, listen: false)
-                              .hen
-                              .isEmpty
-                          ? null
-                          : FirebaseFirestore.instance
-                              .collection('messages')
-                              .doc(widget.person!.groupChatId)
-                              .collection(widget.person!.groupChatId!)
-                              .snapshots(),
-                      builder: (context,
-                          AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                              snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data!.docs.last.data()['idFrom'] !=
-                                  FirebaseAuth.instance.currentUser!.uid &&
-                              snapshot.data!.docs.last.data()['readed'] ==
-                                  false) {
-                            Provider.of<Messages2>(context, listen: false)
-                                .addMessages(
-                              snapshot.data!.docs.last.data(),
-                              false,
-                            );
-                          }
-                        }
-
-                        return StreamBuilder<
-                                DocumentSnapshot<Map<String, dynamic>>?>(
-                            stream: FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(widget.person!.uid)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData &&
-                                  snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                bool asu = ((snapshot.data!
-                                        .data()!['chattingWith'] ==
-                                    FirebaseAuth.instance.currentUser!.uid));
-
-                                Provider.of<Messages2>(context, listen: false)
-                                    .updateRead(asu);
-                              }
-                              if (snapshot.hasData &&
-                                  snapshot.connectionState ==
-                                      ConnectionState.done) {
-                                if (snapshot.data!.data()!['nickname'] !=
-                                        Person.toMap(
-                                            widget.person!)['nickname'] ||
-                                    snapshot.data!.data()!['oneSignal'] !=
-                                        Person.toMap(
-                                            widget.person!)['oneSignal'])
-                                  FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(FirebaseAuth
-                                          .instance.currentUser!.uid)
-                                      .collection(FirebaseAuth
-                                          .instance.currentUser!.uid)
-                                      .doc(widget.person!.uid)
-                                      .update({
-                                    'oneSignal':
-                                        snapshot.data!.data()!['oneSignal'],
-                                    'nickname':
-                                        snapshot.data!.data()!['nickname'],
-                                  });
-                              }
-
-                              return Expanded(child: Messages());
-                            });
+            backgroundColor: Colors.grey.shade900,
+            resizeToAvoidBottomInset: true,
+            appBar: AppBar(
+              backgroundColor: Colors.grey.shade800,
+              automaticallyImplyLeading: false,
+              leadingWidth: 100,
+              centerTitle: false,
+              leading: Row(
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () async {
+                        bool pop = await willpop(context);
+                        if (pop) Navigator.pop(context);
                       }),
-                  NewMessage(widget.person, _focusNode)
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(widget.person!.photoUrl!),
+                  ),
                 ],
               ),
+              title: Text(widget.person!.nickName!),
             ),
-          ),
-        ));
+            body: Container(
+              child: GestureDetector(
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                child: StreamBuilder<DocumentSnapshot<Map<String, dynamic>>?>(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(widget.person!.uid)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData&&snapshot.connectionState==ConnectionState.active) {
+                        bool asu = ((snapshot.data!.data()!['chattingWith'] ==
+                            FirebaseAuth.instance.currentUser!.uid));
+
+                        if (asu == true) {
+                          Provider.of<Messages2>(context, listen: false)
+                              .updateRead(asu);
+                        } else {
+                          Provider.of<Messages2>(context, listen: false)
+                              .updateUnRead(asu);
+                        }
+                      }
+                      if (snapshot.hasData &&
+                          snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.data!.data()!['nickname'] !=
+                                Person.toMap(widget.person!)['nickname'] ||
+                            snapshot.data!.data()!['oneSignal'] !=
+                                Person.toMap(widget.person!)['oneSignal'])
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .collection(
+                                  FirebaseAuth.instance.currentUser!.uid)
+                              .doc(widget.person!.uid)
+                              .update({
+                            'oneSignal': snapshot.data!.data()!['oneSignal'],
+                            'nickname': snapshot.data!.data()!['nickname'],
+                          });
+                      }
+
+                      return Column(
+                        children: <Widget>[
+                          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                              stream: Provider.of<Messages2>(context,
+                                          listen: false)
+                                      .hen
+                                      .isEmpty
+                                  ? null
+                                  : FirebaseFirestore.instance
+                                      .collection('messages')
+                                      .doc(widget.person!.groupChatId)
+                                      .collection(widget.person!.groupChatId!)
+                                      .snapshots(),
+                              builder: (context,
+                                  AsyncSnapshot<
+                                          QuerySnapshot<Map<String, dynamic>>>
+                                      snapshot) {
+                                if (snapshot.hasData) {
+                                  if (snapshot.data!.docs.last
+                                              .data()['idFrom'] !=
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid &&
+                                      snapshot.data!.docs.last
+                                              .data()['readed'] ==
+                                          false) {
+                                    Provider.of<Messages2>(context,
+                                            listen: false)
+                                        .addMessages(
+                                      snapshot.data!.docs.last.data(),
+                                      false,
+                                    );
+                                  }
+                                }
+                                return Expanded(child: Messages());
+                              }),
+                          NewMessage(widget.person, _focusNode)
+                        ],
+                      );
+                    }),
+              ),
+            )));
   }
 }
