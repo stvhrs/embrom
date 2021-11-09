@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.6.4",
+    "@rematch/core": "^2.1.0",
+    "@rematch/loading": "^2.1.0",
+    "@rematch/persist": "^2.1.0",
+    "antd-mobile": "https://github.com/orbital-labs/orbital-ant-design-mobile.git",
+    "axios": "^0.21.1",
+    "js-cookie": "^3.0.1",
+    "next": "^11.1.2",
+    "next-compose-plugins": "^2.2.1",
+    "next-plugin-antd-less": "https://github.com/orbital-labs/next-plugin-antd-less.git#antd-mobile",
+    "next-pwa": "^5.3.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-google-login": "^5.2.2",
+    "react-redux": "^7.2.4",
+    "url-loader": "^4.1.1"
+  },
+  "devDependencies": {}
+}

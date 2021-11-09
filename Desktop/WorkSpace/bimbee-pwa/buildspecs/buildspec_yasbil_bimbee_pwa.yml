@@ -1,0 +1,44 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Docker Hub...
+      - echo $DOCKERHUB_PASSWORD | docker login --username orbitallabs --password-stdin
+
+      - cd $CODEBUILD_SRC_DIR
+      - echo Check .env Variable
+      - chmod +x env.sh
+      - ./env.sh
+      - cat .env
+
+  build:
+    commands:
+      - echo Building the Docker Image...
+      - REPOSITORY_URI=460124076180.dkr.ecr.ap-southeast-1.amazonaws.com/yasbil-bimbee-pwa
+      - docker build -t $REPOSITORY_URI:latest . --build-arg BUILD_VERSION=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION)
+      - echo Logging into AWS ECR...
+      - $(aws ecr get-login --no-include-email --region ap-southeast-1)
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:latest
+  post_build:
+    commands:
+      - echo build Docker image complete `date`
+      - echo push latest Docker images to ECR...
+      - docker push $REPOSITORY_URI:latest
+      
+     # Deploy to Docker Swarm
+      - SERVER_USER=ubuntu
+      - SERVER_ADDRESS=3.0.21.236
+      - echo $(aws ssm get-parameter --name /orb/secret/DEPLOYMENT_SSH_PRIVATE_KEY --with-decryption --query "Parameter.{Value:Value}" | awk -F '"' '{print $4 }') | sed 's/\\n/\'$'\n/g' > deployment_private_key
+      - chmod 400 deployment_private_key
+      - |
+        ssh -o StrictHostKeyChecking=no -i deployment_private_key $SERVER_USER@$SERVER_ADDRESS "
+            aws ecr get-login-password --region ap-southeast-1 | docker login -u AWS --password-stdin $REPOSITORY_URI;
+            docker service update \
+              --image $REPOSITORY_URI:latest \
+              --with-registry-auth \
+              orb_yasbil-bimbee-pwa;
+            exit;
+        "

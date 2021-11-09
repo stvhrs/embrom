@@ -1,0 +1,41 @@
+.navbar {
+  --nav-bg-color: #FFF;
+  --nav-color: #111;
+
+  top: 0;
+  height: var(--navbar-height);
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  background-color: var(--nav-bg-color);
+  color: var(--nav-color);
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.navbarLeft, .navbarRight {
+  font-size: 16px;
+  padding: 4px;
+  padding-right: 8px;
+}
+
+.navbarTitle {
+  flex: 1 1;
+  line-height: 1.4;
+  text-align: left;
+  font-size: 18px;
+  white-space: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (min-width: 480px) {
+  .navbar {
+    --half-container-width: calc(var(--container-width) / 2);
+    padding-left: calc(50vw - var(--half-container-width) + 12px);
+    padding-right: calc(50vw - var(--half-container-width) + 12px);
+  }
+}

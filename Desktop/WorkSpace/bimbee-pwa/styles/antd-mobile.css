@@ -1,0 +1,36 @@
+.adm-tab-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid var(--adm-border-color);
+  z-index: 101;
+  background-color: #FFF;
+}
+
+.adm-tab-bar + .adm-tabs
+> .adm-tabs-tab-list {
+  display: none;
+}
+
+.adm-tab-bar + .adm-tabs
+> .adm-tabs-content {
+  padding: 0;
+}
+
+.adm-form.adm-form-vertical  .adm-list-default,
+.adm-form.adm-form-vertical  .adm-list-default .adm-list-item-content {
+  border: none;
+  border-bottom: none;
+}
+
+.adm-form .adm-input-wrapper {
+  border-bottom: 1px solid var(--adm-border-color);
+}
+
+
+/* Responsive */
+@media only screen and (min-width: 480px) {
+  .adm-tab-bar {
+    width: var(--container-width)
+  }
+}

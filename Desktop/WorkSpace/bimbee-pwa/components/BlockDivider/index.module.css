@@ -1,0 +1,6 @@
+.divider {
+  --divider-bg-color: var(--body-bg-color);
+
+  background-color: var(--divider-bg-color);
+  height: 12px;
+}

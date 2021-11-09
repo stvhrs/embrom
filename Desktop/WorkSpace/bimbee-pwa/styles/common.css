@@ -1,0 +1,115 @@
+/* Common use utility */
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-xl {
+  font-size: 1.4em;
+}
+
+.text-lg {
+  font-size: 1.25em;
+}
+
+.text-sm {
+  font-size: 0.8em;
+}
+
+.rounded {
+  border-radius: 8px;
+}
+
+.shadow {
+  box-shadow:rgb(152 152 152 / 20%) 0px 2px 8px 1px;
+}
+
+.font-bold {
+  font-weight: 600;
+}
+
+.text-gray {
+  color: #6c757d
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.offset-t-60 {
+  margin-top: 60px;
+}
+
+.z-index-999 {
+  z-index: 999;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+.ml-4 {
+  margin-left: 1.5rem;
+}
+
+.ml-2 {
+  margin-left: 1rem;
+}
+
+.ml-1 {
+  margin-left: 0.5rem;
+}
+
+.line-clamp {
+  --max-line: 1;
+
+  display: -webkit-box;
+  -webkit-line-clamp: var(--max-line);
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}

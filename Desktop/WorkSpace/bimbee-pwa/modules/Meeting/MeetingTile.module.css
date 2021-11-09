@@ -1,0 +1,49 @@
+.shadow{
+  box-shadow: rgba(55, 146, 219, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+  padding-bottom: 5px;
+}
+.card {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 8px;
+  display: block;
+
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  box-shadow: rgb(152 152 152 / 20%) 0px 2px 8px 1px;
+}
+.enrolled {
+  margin-bottom: 40px;
+  padding: 4px;;
+  font-weight: 700;
+  border-radius: 3px;
+  width:fit-content;
+  
+}
+.bg {
+  background-size: cover;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  overflow: hidden;
+  
+}
+.row {
+  background: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  height: 100%;
+  z-index: 2;
+
+}
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
