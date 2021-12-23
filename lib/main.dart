@@ -33,13 +33,13 @@ Future<void> main() async {
     ChangeNotifierProvider(
       create: (ctx) => AuthProvider(),
     ),
-    ChangeNotifierProvider(
-      create: (ctx) => APIService(),
-    ),
+   
     ChangeNotifierProvider(
       create: (ctx) => Messages2(),
     ),
-   
+    ChangeNotifierProxyProvider< Messages2,APIService>(update: (context, value, previous) =>previous!..update(value) ,
+      create: (ctx) => APIService(),
+    ),
   ], child: MyApp()));
 }
 
@@ -62,9 +62,11 @@ class _MyAppState extends State<MyApp>  {
       ),
       title: 'Embrom',
       debugShowCheckedModeBanner: false,
-      home: FirebaseAuth.instance.currentUser != null
+      home: 
+      FirebaseAuth.instance.currentUser != null
           ? TabsScreen()
-          : Introduction(),
+          : 
+          Introduction(),
       initialRoute: '/',
     );
   }

@@ -15,9 +15,9 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Messages2 with ChangeNotifier {
-  bool? readAll ;
+  bool? readAll;
   List<Map<String, dynamic>> hen = [];
-
+  String asu2 = 'wwkwk';
   bool loadingSend = false;
   bool loadingReceive = false;
   fetchMessages(QuerySnapshot<Map<String, dynamic>> messages) {
@@ -203,6 +203,7 @@ class Messages2 with ChangeNotifier {
             .doc(message.timestamp.toString())
             .set(data)
             .then((value) {
+              loadingSend = false;
           updateStatus(data);
         });
       } else {
@@ -215,7 +216,7 @@ class Messages2 with ChangeNotifier {
             .then((value) {
           updateStatus(data);
           loadingSend = false;
-          notifyListeners();
+         
         });
 
         await FirebaseFirestore.instance
@@ -253,6 +254,7 @@ class Messages2 with ChangeNotifier {
 
   addMessages(Map<String, dynamic> message, bool? notif,
       [Person? person]) async {
+    asu2 = message['message'];
     Message temp = Message.fromMap(message);
 
     print('add message');
@@ -285,8 +287,7 @@ class Messages2 with ChangeNotifier {
 
   updateUnRead(bool id) {
     print('unread');
-if(!id)
-    readAll = false;
+    if (!id) readAll = false;
   }
 
   Future<Response> sendNotification(

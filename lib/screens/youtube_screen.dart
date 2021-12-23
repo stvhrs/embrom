@@ -96,16 +96,22 @@ class _HomeScreenState extends State<HomeScreen>
             }
             return false;
           },
-          child: ListView.builder(
-            padding: EdgeInsets.only(top: 5),
-            itemCount: value.listVideos.length,
-            itemBuilder: (BuildContext context, int index) {
-              Video video = value.listVideos[index];
-              return YoutubeItem(
-                index + 1,
-                video,
-              );
-            },
+          child: Column(
+            children: [Text(value.asu,style: TextStyle(color: Colors.red),),
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.only(top: 5),
+                  itemCount: value.listVideos.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Video video = value.listVideos[index];
+                    return YoutubeItem(
+                      index + 1,
+                      video,
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,11 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-
 import 'package:flutter_complete_guide/models/video_model.dart';
+import 'package:flutter_complete_guide/providers/messages_data.dart';
 import 'package:http/http.dart' as http;
 
 const String _baseUrl = 'www.googleapis.com';
@@ -14,9 +15,15 @@ const Map<String, String> headers = {
 };
 
 class APIService with ChangeNotifier {
-  String? _nextPageToken ;
+  String? _nextPageToken;
   late int items;
   List<Video> listVideos = [];
+  String asu = '';
+  void update(Messages2 myModel) {
+    asu = myModel.asu2;
+    log(asu);
+    notifyListeners();
+  }
 
   // Future<Channel> fetchChannel({String? channelId}) async {
   //   Map<String, String?> parameters = {
@@ -50,7 +57,7 @@ class APIService with ChangeNotifier {
     Map<String, String?> parameters = {
       'part': 'snippet',
       'playlistId': playlistId,
-      'pageToken': _nextPageToken??"",
+      'pageToken': _nextPageToken ?? "",
       'maxResults': '8',
       'key': 'AIzaSyBRnn7ViKwsP_IDRsvqAz_qxVQnZfuLl84',
     };

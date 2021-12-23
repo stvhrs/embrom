@@ -47,6 +47,8 @@ class AuthProvider with ChangeNotifier {
         'chattingWith': null,
         'searchIndex': indexList,
         'oneSignal': status!.userId,
+      }).then((value) {
+        print('done');
       });
       var groupChatId;
 
@@ -77,14 +79,16 @@ class AuthProvider with ChangeNotifier {
           .doc(peerId)
           .set(data2);
       return;
-    } catch (err) {}
+    } catch (err) {
+      print(err);
+    }
   }
 
   Future<void> clearPrefs() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .update({'oneSignal': ''});
+    // await FirebaseFirestore.instance
+    //     .collection('users')
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .update({'oneSignal': ''});
     await googleSignIn?.signOut();
     await _auth!.signOut();
 
