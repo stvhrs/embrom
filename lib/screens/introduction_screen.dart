@@ -1,13 +1,9 @@
-
 import 'package:flutter_complete_guide/route/custom_route.dart';
 import 'package:flutter_complete_guide/screens/tab_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_complete_guide/providers/auth_api.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-
-
 
 class Introduction extends StatefulWidget {
   @override
@@ -46,12 +42,12 @@ class _IntroductionState extends State<Introduction> {
                       backgroundImage: AssetImage('assets/google.png')),
                 ],
               ),
-              onPressed: () {
-                Provider.of<AuthProvider>(context, listen: false)
-                    .signInWithGoogle().then((value) {
-                      Navigator.of(context).push(  CustomRoute(builder: (context) => TabsScreen()))
-                      ;
-                    });
+              onPressed: () async {
+                await Provider.of<AuthProvider>(context, listen: false).signInWithGoogle();
+
+                Navigator.of(context)
+                    .push(CustomRoute(builder: (context) => TabsScreen()));
+                ;
               }),
         ),
       ),

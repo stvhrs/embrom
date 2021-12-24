@@ -33,11 +33,11 @@ Future<void> main() async {
     ChangeNotifierProvider(
       create: (ctx) => AuthProvider(),
     ),
-   
     ChangeNotifierProvider(
       create: (ctx) => Messages2(),
     ),
-    ChangeNotifierProxyProvider< Messages2,APIService>(update: (context, value, previous) =>previous!..update(value) ,
+    ChangeNotifierProxyProvider<Messages2, APIService>(
+      update: (context, value, previous) => previous!..update(value),
       create: (ctx) => APIService(),
     ),
   ], child: MyApp()));
@@ -48,12 +48,10 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>  {
-
-  
-
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    print("ebuild global");
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Color.fromRGBO(76, 175, 80, 1),
@@ -62,11 +60,13 @@ class _MyAppState extends State<MyApp>  {
       ),
       title: 'Embrom',
       debugShowCheckedModeBanner: false,
-      home: 
-      FirebaseAuth.instance.currentUser != null
-          ? TabsScreen()
-          : 
-          Introduction(),
+      home:
+          FirebaseAuth.instance.currentUser != null
+              ?
+          TabsScreen()
+      :
+      Introduction(),
+      
       initialRoute: '/',
     );
   }

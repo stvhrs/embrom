@@ -85,10 +85,10 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> clearPrefs() async {
-    // await FirebaseFirestore.instance
-    //     .collection('users')
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .update({'oneSignal': ''});
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({'oneSignal': ''});
     await googleSignIn?.signOut();
     await _auth!.signOut();
 

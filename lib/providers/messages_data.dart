@@ -21,8 +21,6 @@ class Messages2 with ChangeNotifier {
   bool loadingSend = false;
   bool loadingReceive = false;
   fetchMessages(QuerySnapshot<Map<String, dynamic>> messages) {
-    print('Fetch Messages');
-
     hen = [];
     if (messages.docs.isNotEmpty)
       messages.docs.forEach((element) {
@@ -35,9 +33,26 @@ class Messages2 with ChangeNotifier {
       });
   }
 
-  updateStatus(Map<String, dynamic> message) {
-    print('updateStatus');
+  addMessages(Map<String, dynamic> message, bool? notif,
+      [Person? person]) async {
+    Message temp = Message.fromMap(message);
 
+    if (hen.every((element) => element['timestamp'] != temp.timestamp)) {
+      if (readAll == true) {
+        message['readed'] = true;
+      }
+
+      hen.insert(0, message);
+      if (notif == true) notifyListeners();
+
+      if (message['localFrom'] == true && notif == true)
+        await send(temp, person!);
+
+      if (!temp.isMe! && message['localTo'] == true) await receviced(temp);
+    }
+  }
+
+  updateStatus(Map<String, dynamic> message) {
     if (message['idFrom'] == FirebaseAuth.instance.currentUser!.uid) {
       var target = hen.firstWhere((element) =>
           element['timestamp'] == message['timestamp'] &&
@@ -68,84 +83,61 @@ class Messages2 with ChangeNotifier {
 
     if (message.localFrom == true && message.isMe!) {
       loadingSend = true;
-      var data = {
-        'idFrom': FirebaseAuth.instance.currentUser!.uid,
-        'createdAt': message.createdAt,
-        'day': message.day,
-        'message': message.message,
-        'idTo': message.idTo,
-        'nickname': message.idTo,
-        'readed': false,
-        'peerImageUrl': message.peerImageUrl,
-        'videoPrefFrom': message.videoPrefFrom,
-        'videoPrefTo': message.videoPrefTo,
-        "imagePrefFrom": message.imagePrefFrom,
-        "imagePrefTo": message.imagePrefTo,
-        'videoUrl': message.videoUrl,
-        'imageUrl': message.imageUrl,
-        'timestamp': message.timestamp,
-        'groupChatId': message.groupId,
-        'messageType': message.messageType,
-        'localFrom': false,
-        'localTo': true,
-        'before': before.length
-      };
+      var data = Message.toMap(message);
 //Send Image
-      if (message.messageType == 'image') {
-        print('send image');
-        Directory appDocDir = await getApplicationDocumentsDirectory();
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child(message.groupId!)
-            .child(data['timestamp'].toString() + '.jpg');
-        await ref.putFile(File(message.imagePrefFrom!));
-        File _pickedFilePath = File(message.imagePrefFrom!);
-        File downloadToFile = await _pickedFilePath
-            .copy('${appDocDir.path}/${data['timestamp']}.jpg');
-        // await ref.writeToFile(downloadToFile);
-        //  await GallerySaver.saveImage(downloadToFile.path, albumName: 'Embrom2');
+//       if (message.messageType == 'image') {
+//         Directory appDocDir = await getApplicationDocumentsDirectory();
+//         final ref = FirebaseStorage.instance
+//             .ref()
+//             .child(message.groupId!)
+//             .child(data['timestamp'].toString() + '.jpg');
+//         await ref.putFile(File(message.imagePrefFrom!));
+//         File _pickedFilePath = File(message.imagePrefFrom!);
+//         File downloadToFile = await _pickedFilePath
+//             .copy('${appDocDir.path}/${data['timestamp']}.jpg');
+//         // await ref.writeToFile(downloadToFile);
+//         //  await GallerySaver.saveImage(downloadToFile.path, albumName: 'Embrom2');
 
-        data["imageUrl"] = await ref.getDownloadURL();
+//         data["imageUrl"] = await ref.getDownloadURL();
 
-        data["imagePrefFrom"] = downloadToFile.path;
-      }
+//         data["imagePrefFrom"] = downloadToFile.path;
+//       }
 
-//Send Video
-      if (message.messageType == 'video') {
-        Directory appDocDir = await getApplicationDocumentsDirectory();
-        print('messageType Video');
-        //Thumbnail
-        File _pickedFilePath = File(message.imagePrefFrom!);
+// //Send Video
+//       if (message.messageType == 'video') {
+//         Directory appDocDir = await getApplicationDocumentsDirectory();
+//         //Thumbnail
+//         File _pickedFilePath = File(message.imagePrefFrom!);
 
-        File downloadToFile = await _pickedFilePath
-            .copy('${appDocDir.path}/${data['timestamp']}.jpg');
+//         File downloadToFile = await _pickedFilePath
+//             .copy('${appDocDir.path}/${data['timestamp']}.jpg');
 
-        final ref = FirebaseStorage.instance
-            .ref()
-            .child(message.groupId!)
-            .child(data['timestamp'].toString() + '.jpg');
-        await ref.putFile(File(message.imagePrefFrom!));
+//         final ref = FirebaseStorage.instance
+//             .ref()
+//             .child(message.groupId!)
+//             .child(data['timestamp'].toString() + '.jpg');
+//         await ref.putFile(File(message.imagePrefFrom!));
 
-        //Video
-        File _pickedFilePathVideo = File(message.videoPrefFrom!);
+//         //Video
+//         File _pickedFilePathVideo = File(message.videoPrefFrom!);
 
-        File downloadToFileVideo = _pickedFilePathVideo;
-        // .copy('${appDocDir.path}/${data['timestamp']}.mp4');
+//         File downloadToFileVideo = _pickedFilePathVideo;
+//         // .copy('${appDocDir.path}/${data['timestamp']}.mp4');
 
-        final refVideo = FirebaseStorage.instance
-            .ref()
-            .child(message.groupId!)
-            .child('video' + data['timestamp'].toString() + '.mp4');
+//         final refVideo = FirebaseStorage.instance
+//             .ref()
+//             .child(message.groupId!)
+//             .child('video' + data['timestamp'].toString() + '.mp4');
 
-        await refVideo.putFile(
-          File(message.videoPrefFrom!),
-        );
+//         await refVideo.putFile(
+//           File(message.videoPrefFrom!),
+//         );
 
-        data["imagePrefFrom"] = downloadToFile.path;
-        data["videoPrefFrom"] = downloadToFileVideo.path;
-        data["imageUrl"] = await ref.getDownloadURL();
-        data["videoUrl"] = await refVideo.getDownloadURL();
-      }
+//         data["imagePrefFrom"] = downloadToFile.path;
+//         data["videoPrefFrom"] = downloadToFileVideo.path;
+//         data["imageUrl"] = await ref.getDownloadURL();
+//         data["videoUrl"] = await refVideo.getDownloadURL();
+//       }
 
       if (hen.length == 1) {
         var myOneSignal = await OneSignal.shared.getDeviceState();
@@ -203,8 +195,9 @@ class Messages2 with ChangeNotifier {
             .doc(message.timestamp.toString())
             .set(data)
             .then((value) {
-              loadingSend = false;
           updateStatus(data);
+          loadingSend = false;
+          notifyListeners();
         });
       } else {
         await FirebaseFirestore.instance
@@ -216,7 +209,7 @@ class Messages2 with ChangeNotifier {
             .then((value) {
           updateStatus(data);
           loadingSend = false;
-         
+          notifyListeners();
         });
 
         await FirebaseFirestore.instance
@@ -247,46 +240,20 @@ class Messages2 with ChangeNotifier {
         });
       }
       var notification = Message.fromMap(data);
-      sendNotification(notification, person);
-    }
-    before.clear();
-  }
-
-  addMessages(Map<String, dynamic> message, bool? notif,
-      [Person? person]) async {
-    asu2 = message['message'];
-    Message temp = Message.fromMap(message);
-
-    print('add message');
-    if (hen.every((element) => element['timestamp'] != temp.timestamp)) {
-      print(readAll);
-      if (readAll == true) {
-        print('readAlltrue');
-        message['readed'] = true;
-      }
-      //    log(temp.docId!);
-      hen.insert(0, message);
-      if (notif!) notifyListeners();
-
-      if (message['localFrom'] == true) await send(temp, person!);
-
-      if (!temp.isMe! && message['localTo'] == true) await receviced(temp);
-    } else {
-      return;
+      before.clear();
+      await sendNotification(notification, person);
     }
   }
 
   updateRead(bool id) {
-    print('update Read');
     if (id) {
       readAll = true;
       hen.every((element) => element['readed'] = true);
-      // notifyListeners();
+      notifyListeners();
     }
   }
 
   updateUnRead(bool id) {
-    print('unread');
     if (!id) readAll = false;
   }
 
@@ -295,9 +262,7 @@ class Messages2 with ChangeNotifier {
     Person person,
   ) async {
     var data = Person.toMap(person);
-    // var status = await OneSignal.shared.getDeviceState();
-    // // OneSignal.shared.postNotificationWithJson(json)
-    // String? tokenId = status!.userId;
+
     return await post(
       Uri.parse('https://onesignal.com/api/v1/notifications'),
       headers: <String, String>{
@@ -306,8 +271,7 @@ class Messages2 with ChangeNotifier {
       body: jsonEncode(<String, dynamic>{
         "app_id": 'b157051e-b42d-463e-bcf7-982a2d7e05ee',
 
-        'big_picture': message.imageUrl, 'data': data,
-        //kAppId is the App Id that one get from the OneSignal When the application is registered.
+        'big_picture': message.imageUrl ?? "", 'data': data,
 
         "include_player_ids": [
           person.oneSignal
@@ -332,30 +296,9 @@ class Messages2 with ChangeNotifier {
   }
 
   Future<void> receviced(Message message) async {
-    var data = {
-      'idFrom': message.idFrom,
-      'createdAt': DateFormat.Hm().format(DateTime.now()),
-      'day': DateFormat.MMMMEEEEd().format(DateTime.now()),
-      'message': message.message,
-      'idTo': message.idTo,
-      'nickname': message.idTo,
-      'peerImageUrl': message.peerImageUrl,
-      'readed': false,
-      "imagePrefFrom": message.imagePrefFrom,
-      "imagePrefTo": message.imagePrefTo,
-      'videoUrl': message.videoUrl,
-      'imageUrl': message.imageUrl,
-      'videoPrefFrom': message.videoPrefFrom,
-      'videoPrefTo': message.videoPrefTo,
-      'timestamp': message.timestamp,
-      'groupChatId': message.groupId,
-      'messageType': message.messageType,
-      'localFrom': false,
-      'localTo': true,
-    };
+    var data = Message.toMap(message);
 
     if (message.isMe == false && message.localTo == true) {
-      print('recived message');
       loadingReceive = true;
       if (message.messageType == 'image') {
         Directory appDocDir = await getApplicationDocumentsDirectory();

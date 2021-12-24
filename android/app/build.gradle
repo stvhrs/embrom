@@ -52,8 +52,8 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.embrom"
         minSdkVersion 23
-        targetSdkVersion 27
-        compileSdkVersion 30
+        targetSdkVersion 20
+        compileSdkVersion 31
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

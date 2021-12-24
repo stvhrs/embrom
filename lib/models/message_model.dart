@@ -65,29 +65,31 @@ class Message {
         imagePrefFrom: snippet['imagePrefFrom'],
         localTo: snippet['localTo'],idFrom: snippet['idFrom'],
         day: snippet['day'],
-        timestamp: snippet['timestamp']);
+        timestamp: int.parse(snippet['timestamp'].toString()) );
   }
-  Map<String, dynamic> toMap(Message message) {
+  static Map<String,dynamic> toMap(Message message) {
     return {
-      'idFrom':'',
+      
+      'idFrom':message.idFrom,
       'createdAt': DateFormat.Hm().format(DateTime.now()),
       'day': DateFormat.MMMMEEEEd().format(DateTime.now()),
       'message': message.message,
       'idTo':  message.idTo,
       'nickname': message.idTo,
       'peerImageUrl': message.peerImageUrl,
-      'readed': false,
+      'readed': message.readed,
       "imagePrefFrom": message.imagePrefFrom,
       "imagePrefTo": message.imagePrefTo,
       'videoUrl': message.videoUrl,
       'imageUrl': message.imageUrl,
       'videoPrefFrom': message.videoPrefFrom,
       'videoPrefTo': message.videoPrefTo,
-      'timestamp': Timestamp.now(),
-      'groupId': message.groupId,
+      'timestamp': message.timestamp,
+      'groupChatId': message.groupId,
       'messageType': message.messageType,
-      'localFrom': false,
-      'localTo': true,
+      'localFrom': message.localFrom,
+      'localTo': message.localTo,
     };
   }
+  
 }
